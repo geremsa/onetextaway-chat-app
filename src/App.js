@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import firebase from "./config/base";
 // import {useAuthState} from 'react-firebase-hooks/auth'
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -15,11 +15,21 @@ const FirestoreDocument = () => {
   const [value, loading, error] = useCollectionData(privateQuery, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
+  useEffect(()=>{
+    if(auth.currentUser){
+    async function fetchdata(){
+        await usersRef.add({
+          person:auth.currentUser.displayName,
+          uid:auth.currentUser.uid
+        },{merge:true})
+      };
+      fetchdata();
+    }
+  },[auth.currentUser])
   const signIn =async () => {
+   
     const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithRedirect(provider).then(async(result)=>{
-      
-    }).catch(err=>console.log(err));
+    auth.signInWithRedirect(provider)
     auth
       .getRedirectResult()
       .then((result) => {
