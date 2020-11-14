@@ -6,10 +6,11 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 const messagesRef = firestore.collection("messages");
 const query = messagesRef.orderBy("createdAt").limit(30);
+const privateQuery = messagesRef.where("uid","==","JvGqfM0J54SHcCeAUGGRvpFeoPx1").where("photoURL","==","https://lh3.googleusercontent.com/a-/AOh14GhM3q7oiK5FKoGI9WHpUECJcNhjtdRzd2bjT6bOiA=s96-c");
 
 const FirestoreDocument = () => {
   const [text, settext] = React.useState("");
-  const [value, loading, error] = useCollectionData(query, {
+  const [value, loading, error] = useCollectionData(privateQuery, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
   const signIn = () => {
@@ -42,7 +43,7 @@ const FirestoreDocument = () => {
           await messagesRef.add({
             text,
             createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-            uid,
+            uid: uid,
             photoURL,
           });
           settext("");
