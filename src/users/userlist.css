@@ -7,22 +7,24 @@
 .users-top{
     display: flex;
     flex-direction: column;
+    align-items: center;
     background-color: var(--background);
     padding: 15px;
     padding-bottom: 0;
-    color: #eee1e1;
+   
 }
 .users-title{
-    width: 100%;
+    width: 32%;
     display: flex;
     justify-content: center;
 }
 .users-title img{
-    width: 15px;
+    width: 25px;
 }
 .users-title span{
     font-weight: bold;
     font-size: larger;
+    color: rgb(162, 163, 163);
 }
 nav{
     display: flex;
@@ -31,7 +33,7 @@ nav{
 }
 nav a{
     text-decoration: none;
-    color: #eee1e1;
+    color: #747171;
     padding:15px;
   
 }
