@@ -1,0 +1,79 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+body{
+    overflow-x: hidden;
+}
+.carousel-container{
+    transform: translateY(100px);
+    width: 100vw;
+    
+}
+.carousel-slider{
+    display: flex;
+    width: 600vw;
+    height: 450px;
+    flex-wrap: wrap;
+    overflow: hidden;
+    position: relative;
+    transition: transform linear 0.5s;
+}
+
+.carousel-slider:hover{
+    animation-play-state: paused;
+    cursor: pointer;
+}
+
+.carousel-image{
+    /* position: absolute;
+    top: 0;
+    left: 0; */
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+    /* transform: translateX(100vw); */
+  
+    opacity: 1;
+}
+.pseudo{
+    transform: translateX(0vw);
+}
+.active{
+    opacity: 1;
+    z-index: 1;
+    transform:translateX(0);
+}
+
+.aa{
+    transform: translateX(-100vw);
+}
+.indicator{
+    display: flex;
+    width: 60vw;
+    padding: 10px;
+    margin: auto;
+    align-items: center;
+    justify-content: space-evenly;
+    transform: translateY(30px);
+
+}
+.indicator span {
+    cursor: pointer;
+    border: 1px solid palevioletred;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    /* color:rgb(70, 66, 66) ; */
+    transition: background-color ease 0.5s;
+}
+.indicator span:hover, .iac {
+   background-color: rgb(70, 66, 66);
+   color: honeydew;
+}
