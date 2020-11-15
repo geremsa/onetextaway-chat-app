@@ -1,10 +1,12 @@
 import React from 'react'
 import Authtext from './users/authtext'
+import Userslist from './users/userslist'
 
 function App() {
   return (
     <div>
-      <Authtext/>
+      {/* <Authtext/> */}
+      <Userslist/>
     </div>
   )
 }

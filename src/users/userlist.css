@@ -1,0 +1,40 @@
+.users-list{
+    width: 100vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+.users-top{
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background);
+    padding: 15px;
+    padding-bottom: 0;
+    color: #eee1e1;
+}
+.users-title{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.users-title img{
+    width: 15px;
+}
+.users-title span{
+    font-weight: bold;
+    font-size: larger;
+}
+nav{
+    display: flex;
+    width: 100vw;
+    justify-content: space-around;
+}
+nav a{
+    text-decoration: none;
+    color: #eee1e1;
+    padding:15px;
+  
+}
+nav a:first-child{
+    border-bottom: 4px solid var(--pink);
+}

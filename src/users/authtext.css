@@ -3,6 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+body{
+    overflow-x: hidden;
+}
 :root{
     --pink:  #f05454;
     --lightpink: #f05454 ;
@@ -17,16 +20,23 @@
     align-items: center;
     justify-content: center;
     position: relative;
-   
+    color: #eee1e1;
 }
 .auth-top{
     width: 100vw;
     height: 50vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     background-color: var(--background);
- 
+    font-style: italic;
+}
+#title-auth{
+    font-style: normal;
+    font-weight: bold;
+    font-size: larger;
+    color: var(--pink);
 }
 .conversation{
     width: 200px;
@@ -45,21 +55,24 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    border: 1px solid var(--pink);
     border-radius: 20px;
     color:var(--lightpink);
     padding: 10px;
     z-index: 2;
     background-color: var(--pink);
-    color: #f3f2f2;
+    color: #eee1e1;
 }
 .auth-text:hover{
-    background-color: var(--pink);
-    color: #f3f2f2;
+    background-color:#ce3d3d ;
 }
 .auth-text img{
     width: 20px;
 }
 .auth-text h5{
     margin-left: 10px;
+}
+@media only screen and (min-width:600px){
+    .auth-container{
+        flex-direction: row;
+    }
 }
