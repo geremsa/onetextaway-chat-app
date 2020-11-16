@@ -40,3 +40,23 @@ nav a{
 nav a:first-child{
     border-bottom: 4px solid var(--pink);
 }
+.users-body{
+    /* background-color: rgb(63, 61, 61); */
+    display: flex;
+    flex-direction: column;
+}
+.media-list{
+    color: rgb(152, 153, 158);
+    padding-top: 15px;
+    display: flex;
+    align-items: center;
+
+}
+.media-list img{
+    object-fit: cover;
+    width: 60px;
+    height: 60px;
+    margin: 0 10px;
+    border-radius: 50%;
+    border: 1px solid var(--background);
+}

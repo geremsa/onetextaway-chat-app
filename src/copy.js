@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import firebase from "./config/base";
 import {useAuthState} from 'react-firebase-hooks/auth'
 import { useCollectionData } from "react-firebase-hooks/firestore";
