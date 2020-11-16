@@ -51,7 +51,6 @@ nav a:first-child{
     padding-top: 15px;
     display: flex;
     align-items: center;
-
 }
 .media-list img{
     object-fit: cover;
@@ -60,4 +59,12 @@ nav a:first-child{
     margin: 0 10px;
     border-radius: 50%;
     border: 1px solid var(--background);
+    transition: border 0.3s ease;
+}
+.media-list:hover img{
+    border-color: var(--pink);
+    border-width: 2.5px;
+}
+.media-list:hover {
+    color: rgb(72, 76, 97);
 }

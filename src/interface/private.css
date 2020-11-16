@@ -1,0 +1,24 @@
+.private-chat{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+    background-color: brown;
+}
+.private-navigation{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--background);
+    padding: 8px 20px;
+}
+.private-img{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
+.private-arrow{
+    width: 25px;
+    transform: rotateZ(180deg);
+}

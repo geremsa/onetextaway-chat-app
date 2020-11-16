@@ -1,9 +1,10 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Authtext from "./users/authtext";
 import Userslist from "./users/userslist";
 import firebase from "./config/base";
 import { useAuthState } from "react-firebase-hooks/auth";
+import Privatechat from "./interface/privatechat";
 const auth = firebase.auth();
 
 function App() {
@@ -12,9 +13,14 @@ function App() {
   if (user)
     route = (
       <Router>
-        <Route path="/">
+      <Switch>
+        <Route path="/" exact>
           <Userslist />
         </Route>
+        <Route exact path="/chat/:cid" >
+          <Privatechat/>
+        </Route>
+        </Switch>
       </Router>
     );
   if (!user) route = <Authtext />;
