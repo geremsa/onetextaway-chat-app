@@ -38,6 +38,7 @@ function Authtext() {
           <h5>Continue with Google</h5>
         </div>
         {user && <button onClick={signOut}>signOut</button>}
+        {user && <button onClick={()=>console.log(user.uid)}>show</button>}
       </div>
     </section>
   );

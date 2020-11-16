@@ -47,6 +47,7 @@ nav a:first-child{
 }
 .media-list{
     color: rgb(152, 153, 158);
+    text-decoration: none;
     padding-top: 15px;
     display: flex;
     align-items: center;

@@ -3,15 +3,17 @@ import {Link} from 'react-router-dom'
 import './userlist.css'
 import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 import Header from '../elements/header';
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 const usersRef = firestore.collection("users");
-const query = usersRef.where('uid','!=',`${auth.currentUser.uid}`)
 
 
 function Userslist() {
-    const [value, loading, error] = useCollectionData(query, {
+    const [user] = useAuthState(auth);
+    const query = usersRef.where('uid','!=',`${user.uid}`)
+    const [value, loading] = useCollectionData(query, {
         snapshotListenOptions: { includeMetadataChanges: true },
       });
     return (
