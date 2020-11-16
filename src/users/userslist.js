@@ -1,32 +1,25 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import './userlist.css'
 import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import Header from '../elements/header';
+const auth = firebase.auth();
 const firestore = firebase.firestore();
 const usersRef = firestore.collection("users");
+const query = usersRef.where('uid','!=',`${auth.currentUser.uid}`)
 
 
 function Userslist() {
-    const [value, loading, error] = useCollectionData(usersRef, {
+    const [value, loading, error] = useCollectionData(query, {
         snapshotListenOptions: { includeMetadataChanges: true },
       });
     return (
       <main className="users-list">
-          <header className="users-top">
-              <div className="users-title">
-                  <span>One</span>
-                  <img src="./chat.svg" alt="text"/>
-                  <span>away</span>
-              </div>
-              <nav>
-               <a href="#" key="chat" className="users-link">Chat</a>
-               <a href="#" key="groups" className="users-link">Groups</a>
-               <a href="#" key="users" className="users-link">Users</a>
-              </nav>
-          </header>
+         <Header/>
           <section className="users-body">
           {loading && <span>Loading...</span>}
-          { value && value.map((p) => <div key={p.uid} className="media-list"><img src={p.imageUrl} alt=""/><span>{p.name}</span></div>)}
+          { value && value.map((p) => <Link to={`chat/${p.imageUrl}' '${p.name}' '${p.uid}`} key={p.uid} className="media-list"><img src={p.imageUrl} alt=""/><span>{p.name}</span></Link>)}
           </section>
       </main>
     )
