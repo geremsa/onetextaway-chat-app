@@ -4,9 +4,11 @@
     width: 100vw;
     height: 100vh;
     background-color: rgb(245, 243, 243);
+    overflow-x: hidden;
 }
 .private-navigation{
     position: fixed;
+    top: 0;
     z-index: 100;
     width: 100%;
     display: flex;
@@ -43,8 +45,8 @@
 
 }
 .chat-form{
-    position: fixed;
-    bottom: 0;
+    /* position: sticky;
+    bottom: 0; */
     width: 100%;
     display: flex;
     justify-content: space-evenly;
@@ -52,9 +54,20 @@
     padding: 10px 0;
     background-color: rgb(245, 243, 243);
 }
+.chat-type-space{
+    width: 80%;
+    background-color: rgb(231, 231, 230);
+    border-radius: 5px;
+    padding-left: 10px;
+    display: flex;
+    align-items: center;
+}
+.chat-emoji{
+    width: 20px;
+}
 .chat-form input{
     height: 50px;
-    padding-left: 13px;
+    padding-left: 10px;
     width: 80%;
     border-radius: 5px;
     border: none;
@@ -90,4 +103,11 @@
 }
 .chats{
     padding: 90px;
+    padding-bottom: 5px;
+}
+.emoji-drawer{
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    
 }
