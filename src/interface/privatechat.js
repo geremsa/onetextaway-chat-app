@@ -12,9 +12,11 @@ function Privatechat(props) {
     return (
        <div className="private-chat">
            <nav className="private-navigation">
-               {/* <img src={props.location.privateProps.imageUrl} alt="" className="private-img"/> */}
+           <section>
+               <img src={props.location.state.imageUrl} alt="" className="private-img"/>
                <span className="private-name">{person[0]}</span>
-               <img src="./arrow.png" alt="go back" onClick={()=>history.goBack()} className="private-arrow"/>
+           </section>
+               <img src="/arrow.png" alt="go back" onClick={()=>history.goBack()} className="private-arrow"/>
            </nav>
        </div>
     )
