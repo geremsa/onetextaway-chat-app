@@ -6,6 +6,7 @@ import firebase from "./config/base";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Privatechat from "./interface/privatechat";
 import Chatslist from "./users/chatlist";
+import Groups from "./groups/groups";
 const auth = firebase.auth();
 
 function App() {
@@ -17,6 +18,9 @@ function App() {
       <Switch>
         <Route path="/" exact>
         <Chatslist/>
+        </Route>
+        <Route path="/groups" exact>
+        <Groups/>
         </Route>
         <Route path="/users" exact>
           <Userslist />

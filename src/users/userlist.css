@@ -89,3 +89,11 @@ nav{
 .media-list:hover {
     color: rgb(72, 76, 97);
 }
+.chat-list-text{
+    display: flex;
+    flex-direction: column;
+}
+.chat-media{
+    color: var(--background);
+    font-weight: bold;
+}

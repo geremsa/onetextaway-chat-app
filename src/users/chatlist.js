@@ -3,12 +3,16 @@ import { Link } from "react-router-dom";
 import "./userlist.css";
 import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
+import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "../elements/header";
+import moment from "moment";
 const firestore = firebase.firestore();
+const auth = firebase.auth();
 const chatsRef = firestore.collection("chats");
 
 function Chatslist() {
-  const query = chatsRef.orderBy("createdAt", "desc");
+  const [user] = useAuthState(auth);
+  const query = chatsRef.where("uid", "==", `${user.uid}`).orderBy("createdAt", "desc");
   const [value, loading, error] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
@@ -35,10 +39,15 @@ function Chatslist() {
                 state: { imageUrl: p.imageUrl, uid: p.chatUid },
               }}
               key={p.chatUid}
-              className="media-list"
+              className="media-list chat-media"
             >
               <img src={p.imageUrl} alt="" />
-              <span>{p.name}</span>
+              <section className="chat-list-text">
+              <div>
+              <span>{p.name}</span><span id="time-chat">{moment(p.createdAt.toDate()).format("LT")}</span>
+              </div>
+              <span id="text-chat">{p.text}</span>
+              </section>
             </Link>
           ))}
       </section>

@@ -133,8 +133,15 @@
 #time-chat {
   display: inline-block;
   padding-left: 2px;
+  transform: translateX(40vw);
   font-size: 8px;
   color: rgb(170, 169, 169);
+}
+#text-chat{
+  color: rgb(112, 112, 112);
+  display: inline-block;
+  padding-left: 2px;
+  font-size: 12px;
 }
 .emoji-mart-light{
     width: 100vw;
