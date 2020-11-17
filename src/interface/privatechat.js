@@ -5,6 +5,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
+import moment from "moment";
 import "./private.css";
 const firestore = firebase.firestore();
 const auth = firebase.auth();
@@ -66,8 +67,21 @@ function Privatechat(props) {
           <div className="chats">
             {error && <strong>Error: {JSON.stringify(error)}</strong>}
             {loading && <span>Loading...</span>}
-            {/* {value && <span>{JSON.stringify(value.data().text)}</span>} */}
-            {user && value && value.map((p) => <p key={p.text} className={(p.uid === user.uid)? "mychat" : "yourchat"}>{p.text}</p>)}
+            {user &&
+              value &&
+              value.map((p) => (
+                <p
+                  key={p.text}
+                  className={p.uid === user.uid ? "mychat" : "yourchat"}
+                >
+                  {p.text}
+                  {p.createdAt && (
+                    <span id="time-chat">
+                      {moment(p.createdAt.toDate()).format("LT")}
+                    </span>
+                  )}{" "}
+                </p>
+              ))}
             <div ref={scrolllDown}></div>
           </div>
         </section>
@@ -75,7 +89,7 @@ function Privatechat(props) {
           <form onSubmit={submitHandler} className="chat-form">
             <div className="chat-type-space">
               <img
-                src={open?  "/text.svg" :"/smiley.svg" }
+                src={open ? "/text.svg" : "/smiley.svg"}
                 alt="emoji"
                 onClick={emojiDrawer}
                 className="chat-emoji"
@@ -89,7 +103,7 @@ function Privatechat(props) {
                 value={text}
               />
             </div>
-            <button type="submit">
+            <button type="submit" disabled={text.length <= 1 ? true : false}>
               <img src="/send.svg" id="chat-send" alt="send" />
             </button>
           </form>
