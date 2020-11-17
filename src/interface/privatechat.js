@@ -51,7 +51,8 @@ function Privatechat(props) {
     await chatsRef.doc(props.location.state.uid).set({
       name: person[0],
       imageUrl : props.location.state.imageUrl,
-      uid: props.location.state.uid,
+      uid,
+      chatUid: props.location.state.uid,
       createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
       text
     },{merge: true})
@@ -83,9 +84,9 @@ function Privatechat(props) {
             {loading && <span>Loading...</span>}
             {user &&
               value &&
-              value.map((p) => (
+              value.map((p,i) => (
                 <p
-                  key={p.text}
+                  key={p.text + i}
                   className={p.uid === user.uid ? "mychat" : "yourchat"}
                 >
                   {p.text}
