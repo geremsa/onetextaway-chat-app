@@ -24,7 +24,7 @@ function Userslist() {
           value.map((p) => (
             <Link
               to={{
-                pathname: `/chat/${p.name}" "${p.uid}`,
+                pathname: `/chat/${p.name} ${p.uid}`,
                 state: { imageUrl: p.imageUrl },
               }}
               key={p.uid}
