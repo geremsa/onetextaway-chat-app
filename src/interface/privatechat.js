@@ -4,12 +4,13 @@ import { useParams, useHistory, withRouter } from "react-router-dom";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "emoji-mart/css/emoji-mart.css";
-import { Picker } from "emoji-mart";
 import moment from "moment";
 import "./private.css";
+import Chatcreator from "../elements/chatcreator";
 const firestore = firebase.firestore();
 const auth = firebase.auth();
 const messagesRef = firestore.collection("messages");
+const chatsRef = firestore.collection("chats");
 function Privatechat(props) {
   const [user] = useAuthState(auth);
   const privateQuery = messagesRef
@@ -28,21 +29,34 @@ function Privatechat(props) {
   const emojiDrawer = () => {
     setopen((p) => !p);
   };
+  const putEmoji =(e)=>{
+    settext(p=>{
+      return p + e.native
+    })
+  }
   React.useEffect(() => {
+    if (value)
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
-  }, []);
+  }, [value]);
   const submitHandler = async (e) => {
     e.preventDefault();
-    const { uid, photoURL } = auth.currentUser;
+    const { uid } = auth.currentUser;
     await messagesRef.add({
       text,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
-      photoURL,
       to: props.location.state.uid,
     });
-    settext("");
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
+    await chatsRef.doc(props.location.state.uid).set({
+      name: person[0],
+      imageUrl : props.location.state.imageUrl,
+      uid: props.location.state.uid,
+      createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
+      text
+    },{merge: true})
+    settext("");
+
   };
   return (
     <div className="private-chat">
@@ -85,30 +99,7 @@ function Privatechat(props) {
             <div ref={scrolllDown}></div>
           </div>
         </section>
-        <section className="emoji-drawer">
-          <form onSubmit={submitHandler} className="chat-form">
-            <div className="chat-type-space">
-              <img
-                src={open ? "/text.svg" : "/smiley.svg"}
-                alt="emoji"
-                onClick={emojiDrawer}
-                className="chat-emoji"
-              />
-              <input
-                type="text"
-                name="text"
-                placeholder="Type a message"
-                onChange={(e) => settext(e.target.value)}
-                autoComplete="off"
-                value={text}
-              />
-            </div>
-            <button type="submit" disabled={text.length <= 1 ? true : false}>
-              <img src="/send.svg" id="chat-send" alt="send" />
-            </button>
-          </form>
-          {open && <Picker />}
-        </section>
+        <Chatcreator  Crray={{open,submitHandler,emojiDrawer,text,settext,putEmoji}}/>
       </main>
     </div>
   );

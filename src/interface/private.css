@@ -64,6 +64,7 @@
   position: sticky;
   bottom: 0;
   width: 100%;
+  background-color: rgb(245, 243, 243);
 }
 .chat-form input {
   height: 50px;
@@ -134,4 +135,7 @@
   padding-left: 2px;
   font-size: 8px;
   color: rgb(170, 169, 169);
+}
+.emoji-mart-light{
+    width: 100vw;
 }

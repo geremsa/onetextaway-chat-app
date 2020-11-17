@@ -1,4 +1,5 @@
 import React from "react";
+import {NavLink} from 'react-router-dom'
 
 function Header() {
   return (
@@ -9,15 +10,15 @@ function Header() {
         <span>away</span>
       </div>
       <nav>
-        <a href="#" key="users" className="users-link">
-          Users
-        </a>
-        <a href="#" key="groups" className="users-link">
+        <NavLink to='/' activeClassName="link-active" exact key="users" className="users-link">
+          Chats
+        </NavLink>
+        <NavLink to='/groups' activeClassName="link-active" exact key="groups" className="users-link">
           Groups
-        </a>
-        <a href="#" key="chat" className="users-link">
-          Status
-        </a>
+        </NavLink>
+        <NavLink to='/users' activeClassName="link-active" exact className="users-link">
+          Users
+        </NavLink>
       </nav>
     </header>
   );

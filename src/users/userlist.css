@@ -4,6 +4,16 @@
     display: flex;
     flex-direction: column;
 }
+.no-chat{
+    width: 100%;
+    transform: translateY(37vh);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+a{
+    text-decoration: none;
+}
 .users-top{
     display: flex;
     flex-direction: column;
@@ -31,13 +41,13 @@ nav{
     width: 100vw;
     justify-content: space-around;
 }
-nav a{
+.users-link{
     text-decoration: none;
     color: #747171;
     padding:15px;
   
 }
-nav a:first-child{
+.link-active{
     border-bottom: 4px solid var(--pink);
 }
 .users-body{
