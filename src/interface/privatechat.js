@@ -64,29 +64,10 @@ function Privatechat(props) {
       <main className="chat-body">
         <section className="message-box">
           <div className="chats">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore,
-            quidem dolorum quos voluptatem non voluptatibus, necessitatibus,
-            delectus reiciendis consequatur illo quia inventore? Facilis, qui
-            voluptatum expedita esse ipsa inventore! Nam placeat fugiat enim
-            sint iste delectus aliquam adipisci eaque id laboriosam
-            reprehenderit, explicabo quaerat voluptatum animi possimus aliquid!
-            Ab optio magni repudiandae reiciendis velit quo cumque asperiores
-            porro, eligendi, minus possimus veniam illum alias, at sequi
-            excepturi perspiciatis eos cupiditate accusantium pariatur tempora
-            eius placeat obcaecati tempore? Quis sint adipisci minima
-            exercitationem inventore quas molestias nostrum quidem harum
-            pariatur, eos earum, neque expedita, ipsa delectus enim animi
-            ducimus soluta nisi! Lorem ipsum dolor sit amet consectetur
-            adipisicing elit. Quod cumque aperiam architecto, deserunt
-            asperiores ea pariatur obcaecati nemo sit eius optio ut at
-            blanditiis nostrum aut alias labore hic tenetur corporis veniam
-            quibusdam nisi ad! Magnam id dolorum excepturi sapiente maiores
-            dignissimos, animi minima dolore tenetur odio deserunt corporis
-            voluptatibus.
             {error && <strong>Error: {JSON.stringify(error)}</strong>}
             {loading && <span>Loading...</span>}
             {/* {value && <span>{JSON.stringify(value.data().text)}</span>} */}
-            {user && value && value.map((p) => <h5 key={p.text}>{p.text}</h5>)}
+            {user && value && value.map((p) => <p key={p.text} className={(p.uid === user.uid)? "mychat" : "yourchat"}>{p.text}</p>)}
             <div ref={scrolllDown}></div>
           </div>
         </section>
@@ -94,7 +75,7 @@ function Privatechat(props) {
           <form onSubmit={submitHandler} className="chat-form">
             <div className="chat-type-space">
               <img
-                src="/smiley.svg"
+                src={open?  "/text.svg" :"/smiley.svg" }
                 alt="emoji"
                 onClick={emojiDrawer}
                 className="chat-emoji"

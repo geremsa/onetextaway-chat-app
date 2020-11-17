@@ -45,8 +45,6 @@
 
 }
 .chat-form{
-    /* position: sticky;
-    bottom: 0; */
     width: 100%;
     display: flex;
     justify-content: space-evenly;
@@ -64,6 +62,12 @@
 }
 .chat-emoji{
     width: 20px;
+}
+.emoji-drawer{
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    
 }
 .chat-form input{
     height: 50px;
@@ -102,12 +106,27 @@
     display: none;
 }
 .chats{
-    padding: 90px;
+    padding: 10px;
+    padding-top: 90px;
     padding-bottom: 5px;
+    display: flex;
+    flex-direction: column;
 }
-.emoji-drawer{
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    
+.chats p{
+   max-width: 85%;
+    padding: 5px;
+}
+.mychat{
+    align-self: flex-end;
+    color: rgb(245, 243, 243);
+    background-color: #434851;
+    border-radius: 6px;
+    margin: 2px 0;
+}
+.yourchat{
+    align-self: flex-end;
+    color:#434851;
+    background-color:rgb(245, 243, 243);
+    border-radius: 6px;
+    margin: 2px 0;
 }
