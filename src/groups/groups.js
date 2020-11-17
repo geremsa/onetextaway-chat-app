@@ -5,6 +5,7 @@ import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "../elements/header";
+import './group.css';
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 const usersRef = firestore.collection("users");
@@ -19,6 +20,10 @@ function Groups() {
     <main className="users-list">
       <Header />
       <section className="users-body">
+      <div className="create-group">
+       <span>Create new group</span> 
+       <img src="/group.svg" alt="plus"/>
+      </div>
         {loading && <span>Loading...</span>}
         {value &&
           value.map((p) => (
