@@ -12,20 +12,26 @@ const auth = firebase.auth();
 const messagesRef = firestore.collection("messages");
 const chatsRef = firestore.collection("chats");
 function Privatechat(props) {
+  const element = React.useRef()
   const [user] = useAuthState(auth);
   const [chatData, setchatData] = React.useState([]);
+  const [latest, setlatest] = React.useState(null);
   const privateQuery = messagesRef
     .where("uid", "==", `${user.uid}`)
     .where("to", "==", `${props.location.state.uid}`)
-    .orderBy("createdAt").limitToLast(25);
-  const [value, loading, error] = useCollectionData(privateQuery, {
-    snapshotListenOptions: { includeMetadataChanges: true },
-  });
+    .orderBy("createdAt").limitToLast(18);
+    const x =React.useCallback(async()=>{
+      let data=  await privateQuery.get()
+      let x= []
+      data.forEach(doc=>x.push(doc.data()))
+      setchatData(x)
+      scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
+      setlatest(data.docs[0])
+      console.log(data.docs[0])
+    },[])
   React.useEffect(()=>{
-    if(value) setchatData(p=>[...p,...value])
-  },[value])
-
-
+    x();
+  },[x])
   const scrolllDown = React.useRef();
   const person = useParams().cid.split(" ");
   const history = useHistory();
@@ -39,12 +45,9 @@ function Privatechat(props) {
       return p + e.native
     })
   }
-  React.useEffect(() => {
-    if (chatData)
-    scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
-  }, [chatData]);
   const submitHandler = async (e) => {
     e.preventDefault();
+    setopen(false)
     const { uid } = auth.currentUser;
     let value = text;
     settext("");
@@ -54,6 +57,7 @@ function Privatechat(props) {
       uid,
       to: props.location.state.uid,
     });
+    x();
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
     await chatsRef.doc(props.location.state.uid).set({
       name: person[0],
@@ -63,13 +67,24 @@ function Privatechat(props) {
       createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
       text:value
     },{merge: true})
-   
-
   };
-  const onScroll =(e)=>{
+  const onScroll =async(e)=>{
     const {scrollTop}= e.currentTarget
-    if(scrollTop===0){
-      
+    console.log(scrollTop)
+    if(latest){
+      let Query = messagesRef
+      .where("uid", "==", `${user.uid}`)
+      .where("to", "==", `${props.location.state.uid}`)
+      .orderBy("createdAt").endBefore(latest).limitToLast(4);
+      if(scrollTop===0){
+       let data=  await Query.get()
+       let x= []
+       data.forEach(doc=>x.push(doc.data()))
+       console.log(x)
+        setchatData(p=>[...x,...p])
+        element.current.scrollTop = 20
+        setlatest(data.docs[0])
+      }
     }
     }
   return (
@@ -91,11 +106,11 @@ function Privatechat(props) {
         />
       </nav>
       <main className="chat-body">
-        <section onScroll={onScroll} className="message-box">
+        <section onScroll={onScroll} ref={element} className="message-box">
           <div className="chats">
-            {error && <strong>Error: {JSON.stringify(error)}</strong>}
+            {/* {error && <strong>Error: {JSON.stringify(error)}</strong>} */}
             {/* <button onClick={()=>console.log(error)}>show</button> */}
-            {loading && <span>Loading...</span>}
+            {/* {loading && <span>Loading...</span>} */}
             {user &&
               chatData.length!==0 &&
               chatData.map((p,i) => (
