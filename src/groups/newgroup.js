@@ -28,9 +28,11 @@ function Newgroup() {
   return (
     <main className="users-list">
       <nav className="nav-group">
-      <Link to='/groups'>
+      {!done && <Link to='/groups'>
         <img src="./arrow.png" alt="back" className="private-arrow" />
-      </Link>
+      </Link>}
+      {done && <img src="./arrow.png" alt="back" onClick={()=>setdone(false)} className="private-arrow" />}
+      
         <section>
           <h4>Create new group</h4>
           <h6>Add participants</h6>
@@ -62,6 +64,20 @@ function Newgroup() {
           ))}
       </section>
       }
+      {done &&
+          <section className="done-body">
+            <div className="input-done">
+              <input type="text"/>
+              <span>Enter a group name</span>
+            </div>
+            <div className="participants">
+              {Grray.map((p,i)=><section key={p+i} className="sec-participants">
+                  <img src={p.imageUrl} alt="img"/>
+                  <span>{p.name.split(' ')[0]}</span>
+              </section>)}
+            </div>
+          </section>
+          }
     </main>
   );
 }

@@ -53,3 +53,27 @@
     position: absolute;
     right: 5vw;
 }
+
+.done-body{
+    flex: auto;
+}
+.input-done{
+    display: flex;
+    flex-direction: column;
+}
+.participants{
+    display: flex;
+    overflow-x: scroll;
+}
+.participants::-webkit-scrollbar{
+    opacity: 0;
+}
+.sec-participants{
+    display: flex;
+    flex-direction: column;
+}
+.sec-participants img{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+}
