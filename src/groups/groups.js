@@ -35,7 +35,7 @@ function Groups() {
               key={p.uid}
               className="media-list"
             >
-              <img src={p.imageUrl} alt="" />
+              <img src={p.imageUrl} alt="img" className="media-list-img"/>
               <span>{p.name}</span>
             </Link>
           ))}

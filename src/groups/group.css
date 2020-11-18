@@ -37,3 +37,9 @@
 .nav-group section h4{
     font-size: larger;
 }
+.group-add{
+    border: none;
+    width: 30px;
+    position: absolute;
+    right: 5vw;
+}

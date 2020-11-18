@@ -6,8 +6,8 @@ import firebase from "./config/base";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Privatechat from "./interface/privatechat";
 import Chatslist from "./users/chatlist";
-import Groups from "./groups/groups";
 import Newgroup from "./groups/newgroup";
+import Groups from "./groups/groups";
 const auth = firebase.auth();
 
 function App() {

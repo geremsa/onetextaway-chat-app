@@ -41,7 +41,7 @@ function Chatslist() {
               key={p.chatUid}
               className="media-list chat-media"
             >
-              <img src={p.imageUrl} alt="" />
+              <img src={p.imageUrl} alt="img" className="media-list-img"/>
               <section className="chat-list-text">
               <div>
               <span>{p.name}</span><span style={{display:"inline-block"}} id="time-chat">{moment(p.createdAt.toDate()).format("LT")}</span>

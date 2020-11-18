@@ -73,7 +73,7 @@ nav{
     display: flex;
     align-items: center;
 }
-.media-list img{
+.media-list-img{
     object-fit: cover;
     width: 60px;
     height: 60px;
