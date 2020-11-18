@@ -27,7 +27,6 @@ function Privatechat(props) {
       setchatData(x)
       scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
       setlatest(data.docs[0])
-      console.log(data.docs[0])
     },[])
   React.useEffect(()=>{
     x();
@@ -79,10 +78,8 @@ function Privatechat(props) {
         let data=  await Query.get()
        let x= []
        data.forEach(doc=>x.push(doc.data()))
-       console.log(x)
        setchatData(p=>[...x,...p])
        element.current.scrollTop = 54.44
-       console.log(scrollTop)
         setlatest(data.docs[0])
       }
     }

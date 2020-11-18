@@ -7,6 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import Privatechat from "./interface/privatechat";
 import Chatslist from "./users/chatlist";
 import Groups from "./groups/groups";
+import Newgroup from "./groups/newgroup";
 const auth = firebase.auth();
 
 function App() {
@@ -21,6 +22,9 @@ function App() {
         </Route>
         <Route path="/groups" exact>
         <Groups/>
+        </Route>
+        <Route path="/newgroup" exact>
+        <Newgroup/>
         </Route>
         <Route path="/users" exact>
           <Userslist />

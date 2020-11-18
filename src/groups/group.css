@@ -20,3 +20,20 @@
 .create-group span{
     font-weight: bold;
 }
+
+.nav-group{
+    padding: 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: var(--background);
+    color: rgb(162, 163, 163);
+}
+.nav-group section{
+    padding-left: 25px;
+    display: flex;
+    flex-direction: column;
+}
+.nav-group section h4{
+    font-size: larger;
+}
