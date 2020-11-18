@@ -13,13 +13,18 @@ const messagesRef = firestore.collection("messages");
 const chatsRef = firestore.collection("chats");
 function Privatechat(props) {
   const [user] = useAuthState(auth);
+  const [chatData, setchatData] = React.useState([]);
   const privateQuery = messagesRef
     .where("uid", "==", `${user.uid}`)
     .where("to", "==", `${props.location.state.uid}`)
-    .orderBy("createdAt");
+    .orderBy("createdAt").limitToLast(25);
   const [value, loading, error] = useCollectionData(privateQuery, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
+  React.useEffect(()=>{
+    if(value) setchatData(p=>[...p,...value])
+  },[value])
+
 
   const scrolllDown = React.useRef();
   const person = useParams().cid.split(" ");
@@ -35,14 +40,16 @@ function Privatechat(props) {
     })
   }
   React.useEffect(() => {
-    if (value)
+    if (chatData)
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
-  }, [value]);
+  }, [chatData]);
   const submitHandler = async (e) => {
     e.preventDefault();
     const { uid } = auth.currentUser;
+    let value = text;
+    settext("");
     await messagesRef.add({
-      text,
+      text: value,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       to: props.location.state.uid,
@@ -54,11 +61,17 @@ function Privatechat(props) {
       uid,
       chatUid: props.location.state.uid,
       createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
-      text
+      text:value
     },{merge: true})
-    settext("");
+   
 
   };
+  const onScroll =(e)=>{
+    const {scrollTop}= e.currentTarget
+    if(scrollTop===0){
+      
+    }
+    }
   return (
     <div className="private-chat">
       <nav className="private-navigation">
@@ -78,13 +91,14 @@ function Privatechat(props) {
         />
       </nav>
       <main className="chat-body">
-        <section className="message-box">
+        <section onScroll={onScroll} className="message-box">
           <div className="chats">
             {error && <strong>Error: {JSON.stringify(error)}</strong>}
+            {/* <button onClick={()=>console.log(error)}>show</button> */}
             {loading && <span>Loading...</span>}
             {user &&
-              value &&
-              value.map((p,i) => (
+              chatData.length!==0 &&
+              chatData.map((p,i) => (
                 <p
                   key={p.text + i}
                   className={p.uid === user.uid ? "mychat" : "yourchat"}

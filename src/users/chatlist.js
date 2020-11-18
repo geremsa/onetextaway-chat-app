@@ -44,9 +44,9 @@ function Chatslist() {
               <img src={p.imageUrl} alt="" />
               <section className="chat-list-text">
               <div>
-              <span>{p.name}</span><span id="time-chat">{moment(p.createdAt.toDate()).format("LT")}</span>
+              <span>{p.name}</span><span style={{display:"inline-block"}} id="time-chat">{moment(p.createdAt.toDate()).format("LT")}</span>
               </div>
-              <span id="text-chat">{p.text}</span>
+              <span id="text-chat" >{p.text}</span>
               </section>
             </Link>
           ))}

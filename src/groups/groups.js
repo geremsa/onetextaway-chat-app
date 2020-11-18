@@ -20,10 +20,10 @@ function Groups() {
     <main className="users-list">
       <Header />
       <section className="users-body">
-      <div className="create-group">
+      <Link to='/newgroup' className="create-group">
        <span>Create new group</span> 
        <img src="/group.svg" alt="plus"/>
-      </div>
+      </Link>
         {loading && <span>Loading...</span>}
         {value &&
           value.map((p) => (
