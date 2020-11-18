@@ -43,3 +43,13 @@
     position: absolute;
     right: 5vw;
 }
+
+.add-btn{
+    transition: all 0.3s ease;
+    border-radius: 4px;
+    padding: 5px;
+    background-color: var(--pink);
+    color:  #eee1e1;
+    position: absolute;
+    right: 5vw;
+}

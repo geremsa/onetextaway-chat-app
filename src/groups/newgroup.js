@@ -9,21 +9,22 @@ const usersRef = firestore.collection("users");
 
 function Newgroup() {
   const [user] = useAuthState(auth);
-  const [add, setadd] = React.useState(true);
+  const [Grray, setGrray] = React.useState([{name: user.displayName, uid: user.uid, imageUrl: user.photoURL}]);
+  const [done, setdone] = React.useState(false);
   const query = usersRef.where("uid", "!=", `${user.uid}`);
   const [value, loading] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
-  const added =(i)=>{
-      var imgRef = document.getElementById(`add${i}`);
-          imgRef.src = "./added.png"
-          setadd(p=>!p)
-  }
-  const removed =(i)=>{
-      var imgRef = document.getElementById(`add${i}`);
-          imgRef.src = "./add.png"
-          setadd(p=>!p)
-  }
+  const added =(e,uid)=>{
+    let val = e.target.src.split('/')[3]
+    if(val === 'add.png'){
+      e.target.src = "added.png"
+      setGrray(p=>[...p,uid])
+    } 
+    else{
+       e.target.src = "add.png"
+      setGrray(p=>p.filter(v=>v!==uid)) 
+  }}
   return (
     <main className="users-list">
       <nav className="nav-group">
@@ -34,7 +35,10 @@ function Newgroup() {
           <h4>Create new group</h4>
           <h6>Add participants</h6>
         </section>
+        {!done &&  <span style={{display: (Grray.length>2)? "inline-block" : "none"}} onClick={()=>setdone(true)} className="add-btn">Done</span>}
+        {done &&  <span style={{display: (Grray.length>2)? "inline-block" : "none"}} onClick={()=>{}} className="add-btn">Create</span>}
       </nav>
+      {!done &&
       <section className="users-body">
         {loading && <span>Loading...</span>}
         {value &&
@@ -49,12 +53,16 @@ function Newgroup() {
             >
               <img src={p.imageUrl} alt="img" className="media-list-img" />
               <span>{p.name}</span>
-              <img src="./add.png" alt="add" id={`add${i}`} onClick={add ? ()=>{added(i)} : ()=>{removed(i)}} className="group-add"/>
+              <img src="add.png" alt="add" id={`add${i}`} onClick={(e)=>{
+                added(e,p);
+
+              }} className="group-add"/>
+            <button onClick={()=>console.log(Grray)}>show</button>
             </div>
           ))}
       </section>
+      }
     </main>
   );
 }
-// {add ? "./add.png" : "./added.png"}
 export default Newgroup;
