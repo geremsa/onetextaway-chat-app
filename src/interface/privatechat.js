@@ -70,19 +70,19 @@ function Privatechat(props) {
   };
   const onScroll =async(e)=>{
     const {scrollTop}= e.currentTarget
-    console.log(scrollTop)
     if(latest){
       let Query = messagesRef
       .where("uid", "==", `${user.uid}`)
       .where("to", "==", `${props.location.state.uid}`)
-      .orderBy("createdAt").endBefore(latest).limitToLast(4);
+      .orderBy("createdAt").endBefore(latest).limitToLast(10);
       if(scrollTop===0){
-       let data=  await Query.get()
+        let data=  await Query.get()
        let x= []
        data.forEach(doc=>x.push(doc.data()))
        console.log(x)
-        setchatData(p=>[...x,...p])
-        element.current.scrollTop = 20
+       setchatData(p=>[...x,...p])
+       element.current.scrollTop = 54.44
+       console.log(scrollTop)
         setlatest(data.docs[0])
       }
     }
