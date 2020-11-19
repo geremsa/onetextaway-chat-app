@@ -9,6 +9,7 @@ import Chatslist from "./users/chatlist";
 import Newgroup from "./groups/newgroup";
 import Groups from "./groups/groups";
 import Groupchat from "./interface/groupchat";
+import Status from "./status/status";
 const auth = firebase.auth();
 
 function App() {
@@ -29,6 +30,9 @@ function App() {
         </Route>
         <Route path="/newgroup" exact>
         <Newgroup/>
+        </Route>
+        <Route path="/status" exact>
+          <Status/>
         </Route>
         <Route path="/users" exact>
           <Userslist />

@@ -1,6 +1,6 @@
 import React from "react";
 import firebase from "../config/base";
-import { useParams, useHistory, withRouter } from "react-router-dom";
+import { useHistory, withRouter } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "emoji-mart/css/emoji-mart.css";
 import moment from "moment";
@@ -14,6 +14,7 @@ function Privatechat(props) {
   const element = React.useRef()
   const [user] = useAuthState(auth);
   const [chatData, setchatData] = React.useState([]);
+  // const [loading, setloading] = React.useState(false);
   const [latest, setlatest] = React.useState(null);
   const privateQuery = messagesRef
    .where("chatparticipants", "in", [user.uid + props.location.state.uid, props.location.state.uid + user.uid ])
@@ -115,7 +116,7 @@ function Privatechat(props) {
                 >
                   {p.text}
                   {p.createdAt && (
-                    <span id="time-chat">
+                    <span id="clock-chat">
                       {moment(p.createdAt.toDate()).format("LT")}
                     </span>
                   )}{" "}

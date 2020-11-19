@@ -136,9 +136,11 @@
 }
 #time-chat {
   padding-left: 2px;
-  transform: translateX(40vw);
+  transform: translateY(5.5px);
   font-size: 8px;
   color: rgb(170, 169, 169);
+  position: absolute;
+  right: 5vw;
 }
 #text-chat{
   color: rgb(112, 112, 112);
@@ -148,4 +150,21 @@
 }
 .emoji-mart-light{
     width: 100vw;
+}
+#clock-chat{
+  padding-left: 2px;
+  transform: translateX(40vw);
+  font-size: 8px;
+  color: rgb(170, 169, 169);
+}
+#chat-name-person{
+  display: inline-block;
+  overflow: hidden;
+  max-width: 150px;
+  height: 20px;
+}
+@media only screen and (max-width: 300px){
+  #chat-name-person{
+   max-width: 100px;
+  }
 }

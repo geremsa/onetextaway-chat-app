@@ -120,7 +120,7 @@ function Groupchat(props) {
                 >
                   {p.text}
                   {p.createdAt && (
-                    <span id="time-chat">
+                    <span id="clock-chat">
                       {moment(p.createdAt.toDate()).format("LT")}
                     </span>
                   )}{" "}

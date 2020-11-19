@@ -115,7 +115,7 @@
     align-items: center;
     justify-content: center;
 }
-.group-chat-names{
+.group-chat-names, .private-name{
     width: 65vw;
     height: 20px;
     overflow: hidden;
@@ -128,4 +128,5 @@
 .private-name{
     padding-left: 5px;
     font-size: large;
+    width: 62vw;
 }
