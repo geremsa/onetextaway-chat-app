@@ -8,16 +8,15 @@ import "./private.css";
 import Chatcreator from "../elements/chatcreator";
 const firestore = firebase.firestore();
 const auth = firebase.auth();
-const messagesRef = firestore.collection("messages");
+const groupsRef = firestore.collection("groupchats");
 const chatsRef = firestore.collection("chats");
-function Privatechat(props) {
+function Groupchat(props) {
   const element = React.useRef()
   const [user] = useAuthState(auth);
   const [chatData, setchatData] = React.useState([]);
   const [latest, setlatest] = React.useState(null);
-  const privateQuery = messagesRef
-    .where("uid", "==", `${user.uid}`)
-    .where("to", "==", `${props.location.state.uid}`)
+  const privateQuery = groupsRef
+    .where("groupUid", "==", `${props.location.state.uid}`)
     .orderBy("createdAt").limitToLast(18);
     const x =React.useCallback(async()=>{
       let data=  await privateQuery.get()
@@ -31,7 +30,7 @@ function Privatechat(props) {
     x();
   },[x])
   const scrolllDown = React.useRef();
-  const person = useParams().cid.split(" ");
+  const person = useParams().gid.split(" ");
   const history = useHistory();
   const [text, settext] = React.useState("");
   const [open, setopen] = React.useState(false);
@@ -49,19 +48,19 @@ function Privatechat(props) {
     const { uid } = auth.currentUser;
     let value = text;
     settext("");
-    await messagesRef.add({
+    await groupsRef.add({
       text: value,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
-      to: props.location.state.uid,
+      groupUid: props.location.state.uid
     });
     x();
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
     await chatsRef.doc(props.location.state.uid).set({
       name: person[0],
-      imageUrl : props.location.state.imageUrl,
+      imageUrl : "/group.svg",
       uid,
-      chatparticipants:[props.location.state.uid, uid],
+      chatparticipants:[...props.location.state.participants.map(v=>v.uid,)],
       createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
       text:value
     },{merge: true})
@@ -69,9 +68,8 @@ function Privatechat(props) {
   const onScroll =async(e)=>{
     const {scrollTop}= e.currentTarget
     if(latest){
-      let Query = messagesRef
-      .where("uid", "==", `${user.uid}`)
-      .where("to", "==", `${props.location.state.uid}`)
+      let Query = groupsRef
+      .where("groupUid", "==", `${props.location.state.uid}`)
       .orderBy("createdAt").endBefore(latest).limitToLast(10);
       if(scrollTop===0){
         let data=  await Query.get()
@@ -88,7 +86,7 @@ function Privatechat(props) {
       <nav className="private-navigation">
         <section>
           <img
-            src={props.location.state.imageUrl}
+            src="/group.svg"
             alt=""
             className="private-img"
           />
@@ -131,4 +129,5 @@ function Privatechat(props) {
   );
 }
 
-export default withRouter(Privatechat);
+export default withRouter(Groupchat);
+

@@ -8,6 +8,7 @@ import Privatechat from "./interface/privatechat";
 import Chatslist from "./users/chatlist";
 import Newgroup from "./groups/newgroup";
 import Groups from "./groups/groups";
+import Groupchat from "./interface/groupchat";
 const auth = firebase.auth();
 
 function App() {
@@ -22,6 +23,9 @@ function App() {
         </Route>
         <Route path="/groups" exact>
         <Groups/>
+        </Route>
+        <Route path="/groupchat/:gid" exact>
+        <Groupchat/>
         </Route>
         <Route path="/newgroup" exact>
         <Newgroup/>

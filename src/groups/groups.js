@@ -36,7 +36,7 @@ function Groups() {
           value.map((p) => (
             <Link
               to={{
-                pathname: `/chat/${p.name} prv`,
+                pathname: `/groupchat/${p.name} prv`,
                 state: { uid:p.groupUid, participants: p.participants },
               }}
               key={p.groupUid}

@@ -1,6 +1,6 @@
 import React from "react";
 import uuid from 'react-uuid'
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -11,6 +11,7 @@ const groupsRef = firestore.collection("groups");
 
 function Newgroup() {
   const [user] = useAuthState(auth);
+  const history = useHistory();
   const [Grray, setGrray] = React.useState([{name: user.displayName, uid: user.uid, imageUrl: user.photoURL}]);
   const [done, setdone] = React.useState(false);
   const [name, setname] = React.useState("");
@@ -36,6 +37,7 @@ function Newgroup() {
       uid : user.uid,
       groupUid: uuid()
     });
+    history.push('/groups');
   }
   return (
     <main className="users-list" style={{height:'100vh', overflow:'hidden'}}>
@@ -58,10 +60,6 @@ function Newgroup() {
         {value &&
           value.map((p,i) => (
             <div
-              to={{
-                pathname: `/chat/${p.name} prv`,
-                state: { imageUrl: p.imageUrl, uid: p.uid },
-              }}
               key={p.uid}
               className="media-list"
             >

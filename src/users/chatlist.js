@@ -12,7 +12,7 @@ const chatsRef = firestore.collection("chats");
 
 function Chatslist() {
   const [user] = useAuthState(auth);
-  const query = chatsRef.where("uid", "==", `${user.uid}`).orderBy("createdAt", "desc");
+  const query = chatsRef.where("chatparticipants", "array-contains", `${user.uid}`).orderBy("createdAt", "desc");
   const [value, loading, error] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
@@ -36,9 +36,9 @@ function Chatslist() {
             <Link
               to={{
                 pathname: `/chat/${p.name} prv`,
-                state: { imageUrl: p.imageUrl, uid: p.chatUid },
+                state: { imageUrl: p.imageUrl, uid: p.chatparticipants[0]},
               }}
-              key={p.chatUid}
+              key={p.chatparticipants[0]}
               className="media-list chat-media"
             >
               <img src={p.imageUrl} alt="img" className="media-list-img"/>
