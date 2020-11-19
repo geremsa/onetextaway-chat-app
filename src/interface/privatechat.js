@@ -16,8 +16,7 @@ function Privatechat(props) {
   const [chatData, setchatData] = React.useState([]);
   const [latest, setlatest] = React.useState(null);
   const privateQuery = messagesRef
-    .where("uid", "==", `${user.uid}`)
-    .where("to", "==", `${props.location.state.uid}`)
+   .where("chatparticipants", "in", [user.uid + props.location.state.uid, props.location.state.uid + user.uid ])
     .orderBy("createdAt").limitToLast(18);
     const x =React.useCallback(async()=>{
       let data=  await privateQuery.get()
@@ -31,7 +30,6 @@ function Privatechat(props) {
     x();
   },[x])
   const scrolllDown = React.useRef();
-  const person = useParams().cid.split(" ");
   const history = useHistory();
   const [text, settext] = React.useState("");
   const [open, setopen] = React.useState(false);
@@ -54,11 +52,12 @@ function Privatechat(props) {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       to: props.location.state.uid,
+      chatparticipants : user.uid + props.location.state.uid
     });
     x();
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
     await chatsRef.doc(props.location.state.uid).set({
-      name: person[0],
+      name: props.location.state.name,
       imageUrl : props.location.state.imageUrl,
       uid,
       chatparticipants:[props.location.state.uid, uid],
@@ -92,7 +91,7 @@ function Privatechat(props) {
             alt=""
             className="private-img"
           />
-          <span className="private-name">{person[0]}</span>
+          <span className="private-name">{props.location.state.name}</span>
         </section>
         <img
           src="/arrow.png"

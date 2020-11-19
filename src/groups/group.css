@@ -115,3 +115,17 @@
     align-items: center;
     justify-content: center;
 }
+.group-chat-names{
+    width: 65vw;
+    height: 20px;
+    overflow: hidden;
+}
+.group-chat-names span{
+    font-style: italic;
+   margin-left: 5px;
+   color:  #eee1e1;
+}
+.private-name{
+    padding-left: 5px;
+    font-size: large;
+}

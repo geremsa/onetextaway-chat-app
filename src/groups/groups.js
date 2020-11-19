@@ -36,8 +36,8 @@ function Groups() {
           value.map((p) => (
             <Link
               to={{
-                pathname: `/groupchat/${p.name} prv`,
-                state: { uid:p.groupUid, participants: p.participants },
+                pathname: `/groupchat/${p.groupUid}`,
+                state: { uid:p.groupUid, participants: p.participants ,name: p.name},
               }}
               key={p.groupUid}
               className="media-list"

@@ -37,11 +37,12 @@ function Chatslist() {
           value.map((p,i) => (
             <Link
               to={{
-                pathname: `/${p.groupUid ? 'groupchat':'chat'}/${p.name} prv`,
+                pathname: `/${p.groupUid ? 'groupchat':'chat'}/${p.groupUid || p.chatparticipants[0]}`,
                 state: {
                   imageUrl: p.imageUrl,
                   uid: p.groupUid || p.chatparticipants[0],
                   participants: p.participants || null,
+                  name: p.name
                 },
               }}
               key={i}
