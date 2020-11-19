@@ -1,0 +1,29 @@
+.pick-btn {
+  border-radius: 4px;
+  padding: 5px;
+  background-color: var(--pink);
+  color: #eee1e1;
+  width: fit-content;
+}
+.preview{
+    transform: translateY(5vw);
+    width: 80%;
+    height: 70vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+.image-upload__preview{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--pink);
+    width: 100%;
+    height: 90%;
+}
+.image-upload__preview p{
+    color: rgb(162, 163, 163);
+    font-size: larger;
+}

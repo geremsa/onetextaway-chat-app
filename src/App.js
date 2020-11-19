@@ -10,6 +10,7 @@ import Newgroup from "./groups/newgroup";
 import Groups from "./groups/groups";
 import Groupchat from "./interface/groupchat";
 import Status from "./status/status";
+import Newstatus from "./status/newstatus";
 const auth = firebase.auth();
 
 function App() {
@@ -33,6 +34,9 @@ function App() {
         </Route>
         <Route path="/status" exact>
           <Status/>
+        </Route>
+        <Route path="/newstatus" exact>
+          <Newstatus/>
         </Route>
         <Route path="/users" exact>
           <Userslist />

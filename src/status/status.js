@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "../elements/header";
 import {Link} from "react-router-dom";
-
+import './status.css'
 function Status() {
   return (
     <main className="users-list">
