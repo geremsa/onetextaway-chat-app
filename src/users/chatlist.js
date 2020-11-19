@@ -12,7 +12,9 @@ const chatsRef = firestore.collection("chats");
 
 function Chatslist() {
   const [user] = useAuthState(auth);
-  const query = chatsRef.where("chatparticipants", "array-contains", `${user.uid}`).orderBy("createdAt", "desc");
+  const query = chatsRef
+    .where("chatparticipants", "array-contains", `${user.uid}`)
+    .orderBy("createdAt", "desc");
   const [value, loading, error] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
@@ -27,26 +29,33 @@ function Chatslist() {
             <Link to="/users" className="auth-text no-chat-link">
               <h4>Start a conversation</h4>
             </Link>
-          <p>You have no chats yet.</p>
+            <p>You have no chats yet.</p>
           </section>
         )}
         {value &&
           value.length !== 0 &&
-          value.map((p) => (
+          value.map((p,i) => (
             <Link
               to={{
-                pathname: `/chat/${p.name} prv`,
-                state: { imageUrl: p.imageUrl, uid: p.chatparticipants[0]},
+                pathname: `/${p.groupUid ? 'groupchat':'chat'}/${p.name} prv`,
+                state: {
+                  imageUrl: p.imageUrl,
+                  uid: p.groupUid || p.chatparticipants[0],
+                  participants: p.participants || null,
+                },
               }}
-              key={p.chatparticipants[0]}
+              key={i}
               className="media-list chat-media"
             >
-              <img src={p.imageUrl} alt="img" className="media-list-img"/>
+              <img src={p.imageUrl} alt="img" className="media-list-img" />
               <section className="chat-list-text">
-              <div>
-              <span>{p.name}</span><span style={{display:"inline-block"}} id="time-chat">{moment(p.createdAt.toDate()).format("LT")}</span>
-              </div>
-              <span id="text-chat" >{p.text}</span>
+                <div>
+                  <span>{p.name}</span>
+                  <span style={{ display: "inline-block" }} id="time-chat">
+                    {moment(p.createdAt.toDate()).format("LT")}
+                  </span>
+                </div>
+                <span id="text-chat">{p.text}</span>
               </section>
             </Link>
           ))}

@@ -60,9 +60,11 @@ function Groupchat(props) {
       name: person[0],
       imageUrl : "/group.svg",
       uid,
-      chatparticipants:[...props.location.state.participants.map(v=>v.uid,)],
+      chatparticipants: props.location.state.participants.map(v=>v.uid),
       createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
-      text:value
+      text:value,
+      groupUid: props.location.state.uid,
+      participants: props.location.state.participants
     },{merge: true})
   };
   const onScroll =async(e)=>{
