@@ -55,25 +55,58 @@
 }
 
 .done-body{
-    flex: auto;
+    color: rgb(162, 163, 163);
+    height: fit-content;
+    transform: translate(2vw,10vh);
 }
 .input-done{
     display: flex;
     flex-direction: column;
+    padding-bottom: 15px;
+}
+.input-done span{
+    font-weight: bold;
 }
 .participants{
+   transform: translateX(6px);
+}
+.participants h5{
+   margin-bottom: 10px;
+   font-size: large;
+   
+}
+.participants section{
     display: flex;
     overflow-x: scroll;
 }
-.participants::-webkit-scrollbar{
+.participants section::-webkit-scrollbar{
     opacity: 0;
 }
 .sec-participants{
     display: flex;
+}
+.sec-participants div{
+    display: flex;
     flex-direction: column;
+    padding-right: 10px;
 }
 .sec-participants img{
     width: 25px;
     height: 25px;
     border-radius: 50%;
+}
+
+.create-input{
+    width:180px;
+    padding: 6px 10px;
+    font-size: larger;
+    border: none;
+    border-bottom: 1px solid var(--background);
+    outline: none;
+    color: rgb(162, 163, 163);
+}
+.create-input::placeholder{
+    color: rgb(162, 163, 163);
+    font-weight: bold;
+    font-size: medium;
 }

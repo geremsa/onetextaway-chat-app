@@ -26,7 +26,7 @@ function Newgroup() {
       setGrray(p=>p.filter(v=>v!==uid)) 
   }}
   return (
-    <main className="users-list">
+    <main className="users-list" style={{height:'100vh', overflow:'hidden'}}>
       <nav className="nav-group">
       {!done && <Link to='/groups'>
         <img src="./arrow.png" alt="back" className="private-arrow" />
@@ -55,7 +55,7 @@ function Newgroup() {
             >
               <img src={p.imageUrl} alt="img" className="media-list-img" />
               <span>{p.name}</span>
-              <img src="add.png" alt="add" id={`add${i}`} onClick={(e)=>{
+              <img src={Grray.includes(p)?"added.png" : "add.png"} alt="add" id={`add${i}`} onClick={(e)=>{
                 added(e,p);
 
               }} className="group-add"/>
@@ -67,14 +67,18 @@ function Newgroup() {
       {done &&
           <section className="done-body">
             <div className="input-done">
-              <input type="text"/>
-              <span>Enter a group name</span>
+              <input type="text" autoFocus={true} autoComplete="false" className="create-input" placeholder="Enter a group name"/>
             </div>
             <div className="participants">
+            <h5>Participants</h5>
+            <section>
               {Grray.map((p,i)=><section key={p+i} className="sec-participants">
+              <div>
                   <img src={p.imageUrl} alt="img"/>
                   <span>{p.name.split(' ')[0]}</span>
+              </div>
               </section>)}
+            </section>
             </div>
           </section>
           }
