@@ -110,3 +110,8 @@
     font-weight: bold;
     font-size: medium;
 }
+.group-img-list{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

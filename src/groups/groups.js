@@ -8,11 +8,11 @@ import Header from "../elements/header";
 import './group.css';
 const auth = firebase.auth();
 const firestore = firebase.firestore();
-const usersRef = firestore.collection("users");
+const groupsRef = firestore.collection("groups");
 
 function Groups() {
   const [user] = useAuthState(auth);
-  const query = usersRef.where("uid", "!=", `${user.uid}`);
+  const query = groupsRef.where("participants", "array-contains", {name: user.displayName, uid: user.uid, imageUrl: user.photoURL});
   const [value, loading] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
@@ -25,17 +25,26 @@ function Groups() {
        <img src="/group.svg" alt="plus"/>
       </Link>
         {loading && <span>Loading...</span>}
+        {value && value.length === 0 && (
+          <section className="no-chat">
+            <div  className="auth-text no-chat-link">
+              <h4>No groups yet</h4>
+            </div>
+          </section>
+        )}
         {value &&
           value.map((p) => (
             <Link
               to={{
                 pathname: `/chat/${p.name} prv`,
-                state: { imageUrl: p.imageUrl,uid:p.uid },
+                state: { uid:p.groupUid, participants: p.participants },
               }}
-              key={p.uid}
+              key={p.groupUid}
               className="media-list"
             >
-              <img src={p.imageUrl} alt="img" className="media-list-img"/>
+            <div className="media-list-img group-img-list">
+              <img src="/group.svg" style={{width:'80%'}}  alt="img" />
+            </div>
               <span>{p.name}</span>
             </Link>
           ))}

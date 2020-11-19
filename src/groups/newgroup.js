@@ -1,4 +1,5 @@
 import React from "react";
+import uuid from 'react-uuid'
 import { Link } from "react-router-dom";
 import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
@@ -6,11 +7,13 @@ import { useAuthState } from "react-firebase-hooks/auth";
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 const usersRef = firestore.collection("users");
+const groupsRef = firestore.collection("groups");
 
 function Newgroup() {
   const [user] = useAuthState(auth);
   const [Grray, setGrray] = React.useState([{name: user.displayName, uid: user.uid, imageUrl: user.photoURL}]);
   const [done, setdone] = React.useState(false);
+  const [name, setname] = React.useState("");
   const query = usersRef.where("uid", "!=", `${user.uid}`);
   const [value, loading] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
@@ -25,6 +28,15 @@ function Newgroup() {
        e.target.src = "add.png"
       setGrray(p=>p.filter(v=>v!==uid)) 
   }}
+  const Creategroup =async()=>{
+    await groupsRef.add({
+      name,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      participants: Grray,
+      uid : user.uid,
+      groupUid: uuid()
+    });
+  }
   return (
     <main className="users-list" style={{height:'100vh', overflow:'hidden'}}>
       <nav className="nav-group">
@@ -38,7 +50,7 @@ function Newgroup() {
           <h6>Add participants</h6>
         </section>
         {!done &&  <span style={{display: (Grray.length>2)? "inline-block" : "none"}} onClick={()=>setdone(true)} className="add-btn">Done</span>}
-        {done &&  <span style={{display: (Grray.length>2)? "inline-block" : "none"}} onClick={()=>{}} className="add-btn">Create</span>}
+        {done &&  <span style={{display: (Grray.length>2)? "inline-block" : "none",background:(name.length>0)?"#f05454":"grey"}} onClick={(name.length>0)?Creategroup:()=>{}} className="add-btn">Create</span>}
       </nav>
       {!done &&
       <section className="users-body">
@@ -67,7 +79,7 @@ function Newgroup() {
       {done &&
           <section className="done-body">
             <div className="input-done">
-              <input type="text" autoFocus={true} autoComplete="false" className="create-input" placeholder="Enter a group name"/>
+              <input type="text" value={name} onChange={(e)=>setname(e.target.value)} autoFocus={true} autoComplete="false" className="create-input" placeholder="Enter a group name"/>
             </div>
             <div className="participants">
             <h5>Participants</h5>

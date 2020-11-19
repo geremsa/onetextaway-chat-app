@@ -1,7 +1,6 @@
 import React from "react";
 import firebase from "../config/base";
 import { useParams, useHistory, withRouter } from "react-router-dom";
-import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "emoji-mart/css/emoji-mart.css";
 import moment from "moment";
