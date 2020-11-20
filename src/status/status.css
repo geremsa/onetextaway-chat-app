@@ -41,3 +41,6 @@
     margin-left: 5px;
     cursor: pointer;
 }
+.status-ring{
+    border: 3px solid var(--pink);
+}

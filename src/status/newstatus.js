@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import firebase from "../config/base";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Code } from 'react-content-loader'
+import { Instagram } from 'react-content-loader'
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 const statusRef = firestore.collection("status");
@@ -57,14 +57,14 @@ function Newstatus() {
           name: user.displayName,
           imageUrl : user.photoURL,
           uid: user.uid,
-          statusUrls:[await fileRef.getDownloadURL()],
-          createdAt:  firebase.firestore.FieldValue.serverTimestamp()
+          statusUrls:[{ url: await fileRef.getDownloadURL(), createdAt: new Date()}],
+          createdAt: new Date()
         },{merge: true})   
       }
       else{
         await statusRef.doc(user.uid).update({
-          createdAt : firebase.firestore.FieldValue.serverTimestamp(),
-          statusUrls : firebase.firestore.FieldValue.arrayUnion(await fileRef.getDownloadURL())
+          createdAt: new Date(),
+          statusUrls : firebase.firestore.FieldValue.arrayUnion({ url: await fileRef.getDownloadURL(), createdAt: new Date()})
         })
       }
       history.push('/status')
@@ -88,8 +88,8 @@ function Newstatus() {
         </section>
       </nav>
       <section className="usersbody">
-      {loading && <section className="create-status-loading">
-        <Code/>
+      {loading && <section className="loading">
+        <Instagram/>
       </section>}
         <div className="form-status" style={{opacity: loading ? 0 : 1}}>
           <input
