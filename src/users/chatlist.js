@@ -61,8 +61,8 @@ function Chatslist() {
                   </span>
                 </div>
                 <span id="text-chat">{p.text}</span>
-                <button onClick={()=>console.log(p.createdAt)}>show
-        </button>
+                {/* <button onClick={()=>console.log(p.createdAt)}>show
+        </button> */}
               </section>
             </Link>
           ))}
