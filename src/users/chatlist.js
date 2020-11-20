@@ -6,6 +6,7 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "../elements/header";
 import moment from "moment";
+import { Facebook } from 'react-content-loader'
 const firestore = firebase.firestore();
 const auth = firebase.auth();
 const chatsRef = firestore.collection("chats");
@@ -22,7 +23,10 @@ function Chatslist() {
     <main className="users-list">
       <Header />
       <section className="users-body">
-        {loading && <span>Loading...</span>}
+        {loading && <div style={{marginTop:"15px"}} >
+        <Facebook />
+        <Facebook />
+        </div>}
         {error && <p>{error}</p>}
         {value && value.length === 0 && (
           <section className="no-chat">

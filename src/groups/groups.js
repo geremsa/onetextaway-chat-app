@@ -5,6 +5,7 @@ import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "../elements/header";
+import { BulletList } from 'react-content-loader'
 import './group.css';
 const auth = firebase.auth();
 const firestore = firebase.firestore();
@@ -24,7 +25,8 @@ function Groups() {
        <span>Create new group</span> 
        <img src="/group.svg" alt="plus"/>
       </Link>
-        {loading && <span>Loading...</span>}
+      {loading && <BulletList />
+        }
         {value && value.length === 0 && (
           <section className="no-chat">
             <div  className="auth-text no-chat-link">

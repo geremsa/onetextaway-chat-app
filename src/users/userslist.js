@@ -5,6 +5,7 @@ import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "../elements/header";
+import { BulletList } from 'react-content-loader'
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 const usersRef = firestore.collection("users");
@@ -19,7 +20,10 @@ function Userslist() {
     <main className="users-list">
       <Header />
       <section className="users-body">
-        {loading && <span>Loading...</span>}
+      {loading && <>
+        <BulletList />
+        <BulletList />
+        </>}
         {value &&
           value.map((p) => (
             <Link
