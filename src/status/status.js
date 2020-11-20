@@ -38,7 +38,7 @@ function Status() {
           value.map((p,i) => (
             <Link
               to={{
-                pathname: `/statusview/${p.uid}`,
+                pathname: `/viewstatus/${p.uid}`,
                 state: {name: p.name, statusUrls : p.statusUrls},
               }}
               key={i}
