@@ -1,17 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import firebase from "../config/base";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { Code } from 'react-content-loader'
 const auth = firebase.auth();
 const firestore = firebase.firestore();
 const statusRef = firestore.collection("status");
 
 function Newstatus() {
   const fileRef = useRef();
+  const history = useHistory()
   const [user] = useAuthState(auth);
   const [file, setfile] = useState();
   const [previewUrl, setpreviewUrl] = useState();
   const [isValid, setisValid] = useState(true);
+  const [loading, setloading] = useState(false)
+  const query = statusRef.where('uid','==', user.uid)
 
   useEffect(() => {
     if (!file) {
@@ -26,18 +30,17 @@ function Newstatus() {
   }, [file]);
   const picked = async(event) => {
     let pickedFile;
-    let fileIsValid = isValid;
     if (event.target.files && event.target.files.length === 1) {
       pickedFile = event.target.files[0];
       setfile(pickedFile);
       setisValid(true);
-      fileIsValid = true;
     } else {
       setisValid(false);
-      fileIsValid = false;
     }
   };
   const submitHandler = async()=>{
+    setloading(true)
+    setpreviewUrl()
     const storageRef = firebase.storage().ref();
     const fileRef = storageRef.child(file.name)
     try {
@@ -48,13 +51,24 @@ function Newstatus() {
       } catch (err) {
         throw new Error(err);
       }
-      await statusRef.doc(user.uid).set({
-        name: user.displayName,
-        imageUrl : user.photoURL,
-        uid: user.uid,
-        statusUrls:[await fileRef.getDownloadURL()],
-        createdAt:  firebase.firestore.FieldValue.serverTimestamp()
-      },{merge: true})  
+      let data=  await query.get()
+      if(data.empty){
+        await statusRef.doc(user.uid).set({
+          name: user.displayName,
+          imageUrl : user.photoURL,
+          uid: user.uid,
+          statusUrls:[await fileRef.getDownloadURL()],
+          createdAt:  firebase.firestore.FieldValue.serverTimestamp()
+        },{merge: true})   
+      }
+      else{
+        await statusRef.doc(user.uid).update({
+          createdAt : firebase.firestore.FieldValue.serverTimestamp(),
+          statusUrls : firebase.firestore.FieldValue.arrayUnion(await fileRef.getDownloadURL())
+        })
+      }
+      history.push('/status')
+      setloading(false)
   }
 
   const pickimage=()=>{
@@ -74,7 +88,10 @@ function Newstatus() {
         </section>
       </nav>
       <section className="usersbody">
-        <div className="form-status">
+      {loading && <section className="create-status-loading">
+        <Code/>
+      </section>}
+        <div className="form-status" style={{opacity: loading ? 0 : 1}}>
           <input
             type="file"
             name=""
@@ -96,7 +113,7 @@ function Newstatus() {
             <div type="button" key="pick" className="pick-btn" onClick={pickimage}>
               Pick a picture
             </div>
-            <div type="button" key="submit" className="pick-btn" style={{background:(previewUrl)?"#f05454":"grey"}} onClick={previewUrl? submitHandler : ()=>{}}>
+            <div type="button" key="submit" className="pick-btn" style={{background:(previewUrl && isValid) ?"#f05454":"grey"}} onClick={(previewUrl && isValid) ? submitHandler : ()=>{}}>
               Upload
             </div>
             </section>

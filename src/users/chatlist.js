@@ -23,7 +23,7 @@ function Chatslist() {
     <main className="users-list">
       <Header />
       <section className="users-body">
-        {loading && <div style={{marginTop:"15px"}} >
+        {loading && <div className="loading" style={{marginTop:"15px"}} >
         <Facebook />
         <Facebook />
         </div>}

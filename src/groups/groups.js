@@ -25,7 +25,7 @@ function Groups() {
        <span>Create new group</span> 
        <img src="/group.svg" alt="plus"/>
       </Link>
-      {loading && <BulletList />
+      {loading && <section className="loading"><BulletList /></section>
         }
         {value && value.length === 0 && (
           <section className="no-chat">

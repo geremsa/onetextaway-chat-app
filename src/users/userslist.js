@@ -20,10 +20,10 @@ function Userslist() {
     <main className="users-list">
       <Header />
       <section className="users-body">
-      {loading && <>
+      {loading && <section className="loading">
         <BulletList />
         <BulletList />
-        </>}
+        </section>}
         {value &&
           value.map((p) => (
             <Link

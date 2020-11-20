@@ -98,3 +98,8 @@ nav{
     color: var(--background);
     font-weight: bold;
 }
+@media only screen and ( min-width: 700px){
+ .loading{
+     width: 50%;
+ }
+}
