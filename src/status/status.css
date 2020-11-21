@@ -54,7 +54,11 @@
     position: fixed;
 }
 .title-status-view{
-    
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    position: absolute;
+    padding:20px 100px;
 }
 .close-btn{
     padding: 6px 12px;
@@ -99,11 +103,12 @@
    display: flex;
    flex-direction: column;
    transform: translateX(100%);
-   transition: 0.4s transform ease;
+   
 }
 .status-container img{
    width: 100%;
    object-fit: cover;
+   transition: 0.4s transform ease;
 }
 .view-time{
     font-style: italic;
@@ -112,5 +117,8 @@
     .status-swipe{
         width: 100%;
         transform: translateY(17vh);
+    }
+    .title-status-view{
+        padding:20px 10px;
     }
    }
