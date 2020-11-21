@@ -42,6 +42,7 @@ function Status() {
                 state: {name: p.name, statusUrls : p.statusUrls},
               }}
               key={i}
+              style={{display: p.statusUrls.length>0? "flex" : "none"}}
               className="media-list"
             >
               <img src={p.imageUrl}  alt="img" className="media-list-img status-ring" />

@@ -105,6 +105,9 @@
    transform: translateX(100%);
    
 }
+.red{
+    background-color: rgb(148, 21, 42);
+}
 .status-container img{
    width: 100%;
    object-fit: cover;
@@ -121,4 +124,13 @@
     .title-status-view{
         padding:20px 10px;
     }
+   }
+
+   .loading-view{
+       position: absolute;
+       width: 100vw;
+       height: 100vh;
+       top: 0;
+       left: 0;
+       z-index: 10;
    }
