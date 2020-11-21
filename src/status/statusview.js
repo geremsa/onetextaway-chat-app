@@ -20,28 +20,34 @@ function Statusview(props) {
       return p+1;
     })
   }
+  const goRight =()=>{
+    setcurrent(p=>{
+      if(current === 0){
+        return props.location.state.statusUrls.length -1;
+      }
+      return p-1;
+    })
+  }
   return (
     <div className="status-view-page">
     <section className="title-status-view">
       <span onClick={()=>history.goBack()} className="close-btn">Close</span>
     </section>
     <div className="status-swipe">
-    <div className="swipe-2">
-
       {props.location.state.statusUrls.map((p, i) => (
-        <section className="status-container" key={i} >
+        <section className="status-container" key={i} style={{transform: (current===i)? "translateX(0)": "translateX(100%)",opacity:(current===i)? 1 : 0 }}>
             <img src={p.url} alt="img"/>
             <div className="view-bottom">
-            {uid === user.uid && <span className="view-delete">Delete</span>}
+            {/* {uid === user.uid && <span className="view-delete">Delete</span>} */}
+           <span className="view-delete" onClick={goRight}>Prev</span>
             <span className="view-time">
             {moment(p.createdAt.toDate()).fromNow()}
             </span> 
+            <span className="view-delete" onClick={goLeft} >Next</span>
             </div>
         </section>
       ))}
     </div>
-    </div>
-      {/* <button onClick={goLeft}>Left</button> */}
     </div>
   );
 }
