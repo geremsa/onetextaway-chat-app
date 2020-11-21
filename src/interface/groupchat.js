@@ -47,13 +47,14 @@ function Groupchat(props) {
     setloading(true)
     e.preventDefault();
     setopen(false)
-    const { uid } = auth.currentUser;
+    const { uid, displayName } = auth.currentUser;
     let value = text;
     settext("");
     await groupsRef.add({
       text: value,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
+      name: displayName,
       groupUid: props.location.state.uid
     });
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
@@ -116,17 +117,20 @@ function Groupchat(props) {
             {user &&
               chatData.length!==0 &&
               chatData.map((p,i) => (
-                <p
+                <div
                   key={p.text + i}
-                  className={p.uid === user.uid ? "mychat" : "yourchat"}
-                >
+                  className={p.uid === user.uid ? "mychat mine" : "yourchat yours"}
+                > 
+                {p.uid === user.uid ? "" : <h5>{p.name.split(' ')[0]}</h5>}
+                <span>
                   {p.text}
                   {p.createdAt && (
                     <span id="clock-chat">
                       {moment(p.createdAt.toDate()).format("LT")}
                     </span>
                   )}{" "}
-                </p>
+                </span>
+                </div>
               ))}
               { loading && <p key="loading" className="mychat" style={{fontStyle:"italic"}}>sending...</p>}
             <div ref={scrolllDown}></div>

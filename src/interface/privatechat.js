@@ -16,7 +16,6 @@ function Privatechat(props) {
   const [user] = useAuthState(auth);
   const [chatData, setchatData] = React.useState([]);
   const [loading, setloading] = React.useState(false)
-  // const [loading, setloading] = React.useState(false);
   const [latest, setlatest] = React.useState(null);
   const privateQuery = messagesRef
    .where("chatparticipants", "in", [user.uid + props.location.state.uid, props.location.state.uid + user.uid ])
@@ -25,7 +24,6 @@ function Privatechat(props) {
     privateQuery.onSnapshot((data=>{
       let x= []
       data.forEach(doc=>x.push(doc.data()))
-  setloading(false)
     setchatData(x)
     if(scrolllDown.current){
       scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
@@ -59,6 +57,7 @@ function Privatechat(props) {
       to: props.location.state.uid,
       chatparticipants : user.uid + props.location.state.uid
     });
+    setloading(false)
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
     await chatsRef.doc(props.location.state.uid).set({
       name: props.location.state.name,

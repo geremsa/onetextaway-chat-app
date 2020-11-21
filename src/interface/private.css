@@ -31,6 +31,7 @@
 .private-arrow {
   width: 25px;
   transform: rotateZ(180deg);
+  cursor: pointer;
 }
 .chat-body {
   /* background-color: crimson; */
@@ -47,7 +48,7 @@
   justify-content: space-evenly;
   align-items: center;
   padding-bottom: 10px;
-  background-color: rgb(245, 243, 243);
+  background-color: rgb(202, 202, 202);
 }
 .chat-type-space {
   width: 80%;
@@ -64,7 +65,7 @@
   position: sticky;
   bottom: 0;
   width: 100%;
-  background-color: rgb(245, 243, 243);
+  background-color: rgb(202, 202, 202);
 }
 .chat-form input {
   height: 50px;
@@ -97,8 +98,7 @@
   height: 35px;
 }
 .message-box {
-  background-color: rgb(245, 243, 243);
-  /* background-color: rgb(85, 84, 84); */
+  background-color: rgb(202, 202, 202);
   max-height: 82vh;
   transform: translateY(9vh);
   flex: auto;
@@ -123,18 +123,23 @@
 .mychat {
   align-self: flex-end;
   color: rgb(245, 243, 243);
-  background-color: #434851;
+  background-color: #235281;
   border-radius: 6px;
   margin: 2px 0;
 }
 .yourchat {
   align-self: flex-start;
-  color: #434851;
-  color: rgb(255, 255, 255);
-  background-color:rgb(189, 39, 52);
-  background-color: rgb(131, 131, 131);
+  color: rgb(63, 63, 63);
+  background-color:rgb(255, 255, 255);
   border-radius: 6px;
   margin: 2px 0;
+}
+.mine, .yours{
+  padding: 3px 5px;
+}
+.yours h5{
+  color: var(--pink);
+  font-size: medium;
 }
 #time-chat {
   padding-left: 2px;
