@@ -12,7 +12,7 @@ const statusRef = firestore.collection("status");
 function Status() {
   const [user] = useAuthState(auth);
   const query = statusRef.where('uid','==',user.uid).orderBy('createdAt','desc')
-  const [value, loading, error] = useCollectionData(query, {
+  const [value, loading] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
   return (
