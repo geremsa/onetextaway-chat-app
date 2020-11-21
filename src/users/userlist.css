@@ -36,16 +36,29 @@ a{
    
 }
 .users-title{
-    width: 32%;
+    width: 90%;
     display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.logout{
+    display: flex;
+    align-items: center;
     justify-content: center;
+    font-size: smaller;
+    padding: 2px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--pink);
+    color: rgb(162, 163, 163);
+    cursor: pointer;
 }
 .users-title img{
     width: 25px;
 }
+
 .users-title span{
     font-weight: bold;
-    font-size: larger;
+    font-size: x-large;
     color: rgb(162, 163, 163);
 }
 nav{

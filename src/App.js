@@ -12,10 +12,14 @@ import Groupchat from "./interface/groupchat";
 import Status from "./status/status";
 import Newstatus from "./status/newstatus";
 import Statusview from "./status/statusview";
+import { Instagram } from 'react-content-loader'
 const auth = firebase.auth();
 
 function App() {
   const [user, loading] = useAuthState(auth);
+  if(loading){
+    return <Instagram/>
+  }
   let route;
   if (user)
     route = (
