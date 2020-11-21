@@ -1,4 +1,5 @@
 import React from "react";
+import {Chatcontext} from './elements/context'
 import { BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import Authtext from "./users/authtext";
 import Userslist from "./users/userslist";
@@ -57,10 +58,12 @@ function App() {
     );
   if (!user) route = <Authtext />;
   return (
+    <Chatcontext.Provider value={ {currentUser :user}}>
     <main>
       {loading && <div>loading</div>}
       {!loading && route}
     </main>
+    </Chatcontext.Provider>
   );
 }
 

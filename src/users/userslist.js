@@ -1,18 +1,17 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Link } from "react-router-dom";
 import "./userlist.css";
 import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "../elements/header";
 import { BulletList } from 'react-content-loader'
-const auth = firebase.auth();
+import { Chatcontext } from "../elements/context";
 const firestore = firebase.firestore();
 const usersRef = firestore.collection("users");
 
 function Userslist() {
-  const [user] = useAuthState(auth);
-  const query = usersRef.where("uid", "!=", `${user.uid}`);
+  const user = useContext(Chatcontext);
+  const query = usersRef.where("uid", "!=", `${user.currentUser.uid}`);
   const [value, loading] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });

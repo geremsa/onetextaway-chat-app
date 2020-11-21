@@ -1,21 +1,20 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import firebase from "../config/base";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { Instagram } from 'react-content-loader'
-const auth = firebase.auth();
+import { Chatcontext } from "../elements/context";
 const firestore = firebase.firestore();
 const statusRef = firestore.collection("status");
 
 function Newstatus() {
   const fileRef = useRef();
   const history = useHistory()
-  const [user] = useAuthState(auth);
+  const user = useContext(Chatcontext)
   const [file, setfile] = useState();
   const [previewUrl, setpreviewUrl] = useState();
   const [isValid, setisValid] = useState(true);
   const [loading, setloading] = useState(false)
-  const query = statusRef.where('uid','==', user.uid)
+  const query = statusRef.where('uid','==', user.currentUser.uid)
 
   useEffect(() => {
     if (!file) {
@@ -53,22 +52,21 @@ function Newstatus() {
       }
       let data=  await query.get()
       if(data.empty){
-        await statusRef.doc(user.uid).set({
-          name: user.displayName,
-          imageUrl : user.photoURL,
-          uid: user.uid,
+        await statusRef.doc(user.currentUser.uid).set({
+          name: user.currentUser.displayName,
+          imageUrl : user.currentUser.photoURL,
+          uid: user.currentUser.uid,
           statusUrls:[{ url: await fileRef.getDownloadURL(), createdAt: new Date()}],
           createdAt: new Date()
         },{merge: true})   
       }
       else{
-        await statusRef.doc(user.uid).update({
+        await statusRef.doc(user.currentUser.uid).update({
           createdAt: new Date(),
           statusUrls : firebase.firestore.FieldValue.arrayUnion({ url: await fileRef.getDownloadURL(), createdAt: new Date()})
         })
       }
       history.push('/status')
-      setloading(false)
   }
 
   const pickimage=()=>{

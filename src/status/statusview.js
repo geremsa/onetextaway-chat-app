@@ -1,14 +1,13 @@
-import React,{ useState} from "react";
+import React,{ useState, useContext} from "react";
 import {useParams, withRouter, useHistory } from "react-router-dom";
 import firebase from "../config/base";
-import { useAuthState } from "react-firebase-hooks/auth";
 import moment from "moment";
 import { Instagram } from 'react-content-loader'
-const auth = firebase.auth();
+import { Chatcontext } from "../elements/context";
 const firestore = firebase.firestore();
 const statusRef = firestore.collection("status");
 function Statusview(props) {
-  const [user] = useAuthState(auth);
+  const user = useContext(Chatcontext);
   const [current, setcurrent] = useState(0);
   const [loading, setloading] = useState(false)
   const uid = useParams().sid
@@ -33,7 +32,7 @@ function Statusview(props) {
   }
   const deleteStatus =async(url)=>{
     setloading(true)
-    await statusRef.doc(user.uid).update({
+    await statusRef.doc(user.currentUser.uid).update({
       statusUrls : firebase.firestore.FieldValue.arrayRemove(url)
     })
     history.goBack()
@@ -62,7 +61,7 @@ function Statusview(props) {
             <span className="view-time" >
             {p.createdAt && moment(p.createdAt.toDate()).fromNow()}
             </span> 
-       {uid === user.uid && <span className="view-delete red" onClick={()=>{deleteStatus(p)}}>Delete</span>}
+       {uid === user.currentUser.uid && <span className="view-delete red" onClick={()=>{deleteStatus(p)}}>Delete</span>}
             <span className="view-delete" onClick={goLeft} style={{opacity, pointerEvents }} >Next</span>
             </div>
         </section>

@@ -1,20 +1,19 @@
-import React from "react";
+import React, {useContext} from "react";
 import { Link } from "react-router-dom";
 import "./userlist.css";
 import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
 import Header from "../elements/header";
 import moment from "moment";
 import { Facebook } from 'react-content-loader'
+import { Chatcontext } from "../elements/context";
 const firestore = firebase.firestore();
-const auth = firebase.auth();
 const chatsRef = firestore.collection("chats");
 
 function Chatslist() {
-  const [user] = useAuthState(auth);
+  const user = useContext(Chatcontext);
   const query = chatsRef
-    .where("chatparticipants", "array-contains", `${user.uid}`)
+    .where("chatparticipants", "array-contains", `${user.currentUser.uid}`)
     .orderBy("createdAt", "desc");
   const [value, loading, error] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },

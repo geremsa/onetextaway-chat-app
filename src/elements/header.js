@@ -1,11 +1,11 @@
-import React from "react";
+import React,{useContext} from "react";
 import {NavLink} from 'react-router-dom'
 import firebase from "../config/base";
-import {useAuthState} from 'react-firebase-hooks/auth'
+import { Chatcontext } from "./context";
 const auth = firebase.auth();
 
 function Header() {
-  const [user]=useAuthState(auth);
+  const user = useContext(Chatcontext)
   const signOut = () => {
     auth.signOut();
   };
@@ -17,7 +17,7 @@ function Header() {
         <img src="./chat.svg" alt="text" />
         <span>away</span>
       </section>
-     {user && <p className="logout" onClick={signOut}>logout</p>}
+     {user.currentUser && <p className="logout" onClick={signOut}>logout</p>}
       </div>
       <nav>
         <NavLink to='/' activeClassName="link-active" exact key="users" className="users-link">

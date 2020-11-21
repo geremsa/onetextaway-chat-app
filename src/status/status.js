@@ -1,17 +1,16 @@
-import React from "react";
+import React, {useContext} from "react";
 import Header from "../elements/header";
 import {Link} from "react-router-dom";
 import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
-import { useAuthState } from "react-firebase-hooks/auth";
 import { BulletList } from 'react-content-loader'
 import './status.css'
-const auth = firebase.auth();
+import { Chatcontext } from "../elements/context";
 const firestore = firebase.firestore();
 const statusRef = firestore.collection("status");
 function Status() {
-  const [user] = useAuthState(auth);
-  const query = statusRef.where('uid','==',user.uid).orderBy('createdAt','desc')
+  const user = useContext(Chatcontext)
+  const query = statusRef.where('uid','==',user.currentUser.uid).orderBy('createdAt','desc')
   const [value, loading] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
