@@ -13,6 +13,7 @@ const chatsRef = firestore.collection("chats");
 function Groupchat(props) {
   const element = React.useRef()
   const [user] = useAuthState(auth);
+  const [loading, setloading] = React.useState(false)
   const [chatData, setchatData] = React.useState([]);
   const [latest, setlatest] = React.useState(null);
   const privateQuery = groupsRef
@@ -22,6 +23,7 @@ function Groupchat(props) {
       let data=  await privateQuery.get()
       let x= []
       data.forEach(doc=>x.push(doc.data()))
+      setloading(false)
       setchatData(x)
       scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
       setlatest(data.docs[0])
@@ -42,6 +44,7 @@ function Groupchat(props) {
     })
   }
   const submitHandler = async (e) => {
+    setloading(true)
     e.preventDefault();
     setopen(false)
     const { uid } = auth.currentUser;
@@ -126,6 +129,7 @@ function Groupchat(props) {
                   )}{" "}
                 </p>
               ))}
+              { loading && <p key="loading" className="mychat" style={{fontStyle:"italic"}}>sending...</p>}
             <div ref={scrolllDown}></div>
           </div>
         </section>

@@ -10,7 +10,7 @@ const firestore = firebase.firestore();
 const statusRef = firestore.collection("status");
 function Status() {
   const user = useContext(Chatcontext)
-  const query = statusRef.where('uid','==',user.currentUser.uid).orderBy('createdAt','desc')
+  const query = statusRef.orderBy('createdAt','desc')
   const [value, loading] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });

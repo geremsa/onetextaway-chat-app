@@ -128,9 +128,11 @@
   margin: 2px 0;
 }
 .yourchat {
-  align-self: flex-end;
+  align-self: flex-start;
   color: #434851;
-  background-color: rgb(245, 243, 243);
+  color: rgb(255, 255, 255);
+  background-color:rgb(189, 39, 52);
+  background-color: rgb(131, 131, 131);
   border-radius: 6px;
   margin: 2px 0;
 }

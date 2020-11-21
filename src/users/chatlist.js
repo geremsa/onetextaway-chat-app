@@ -49,6 +49,7 @@ function Chatslist() {
                 },
               }}
               key={i}
+              style={{display: (p.chatparticipants.length===2 && p.uid !== user.currentUser.uid)? "none" : "flex" }}
               className="media-list chat-media"
             >
               <img src={p.imageUrl} alt="img" className="media-list-img" />

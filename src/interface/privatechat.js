@@ -14,6 +14,7 @@ function Privatechat(props) {
   const element = React.useRef()
   const [user] = useAuthState(auth);
   const [chatData, setchatData] = React.useState([]);
+  const [loading, setloading] = React.useState(false)
   // const [loading, setloading] = React.useState(false);
   const [latest, setlatest] = React.useState(null);
   const privateQuery = messagesRef
@@ -23,6 +24,7 @@ function Privatechat(props) {
       let data=  await privateQuery.get()
       let x= []
       data.forEach(doc=>x.push(doc.data()))
+    setloading(false)
       setchatData(x)
       scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
       setlatest(data.docs[0])
@@ -43,6 +45,7 @@ function Privatechat(props) {
     })
   }
   const submitHandler = async (e) => {
+    setloading(true)
     e.preventDefault();
     setopen(false)
     const { uid } = auth.currentUser;
@@ -65,6 +68,16 @@ function Privatechat(props) {
       createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
       text:value
     },{merge: true})
+    try{
+      await chatsRef.doc(user.uid).update({
+        createdAt: new Date(),
+        text : value
+      })
+    }
+    catch{
+      return;
+    }
+    
   };
   const onScroll =async(e)=>{
     const {scrollTop}= e.currentTarget
@@ -122,6 +135,7 @@ function Privatechat(props) {
                   )}{" "}
                 </p>
               ))}
+              { loading && <p key="loading" className="mychat" style={{fontStyle:"italic"}}>sending...</p>}
             <div ref={scrolllDown}></div>
           </div>
         </section>
