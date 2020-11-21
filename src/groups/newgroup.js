@@ -27,11 +27,9 @@ function Newgroup() {
   const added = (e, uid) => {
     let val = e.target.src.split("/")[3];
     if (val === "add.png") {
-      e.target.src = "added.png";
       setGrray((p) => [...p, uid]);
     } else {
-      e.target.src = "add.png";
-      setGrray((p) => p.filter((v) => v !== uid));
+      setGrray((p) => p.filter((v) => v.uid !== uid.uid));
     }
   };
   const Creategroup = async () => {

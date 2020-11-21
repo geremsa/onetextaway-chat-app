@@ -12,6 +12,7 @@ const messagesRef = firestore.collection("messages");
 const chatsRef = firestore.collection("chats");
 function Privatechat(props) {
   const element = React.useRef()
+  const scrolllDown = React.useRef();
   const [user] = useAuthState(auth);
   const [chatData, setchatData] = React.useState([]);
   const [loading, setloading] = React.useState(false)
@@ -20,19 +21,19 @@ function Privatechat(props) {
   const privateQuery = messagesRef
    .where("chatparticipants", "in", [user.uid + props.location.state.uid, props.location.state.uid + user.uid ])
     .orderBy("createdAt").limitToLast(18);
-    const x =React.useCallback(async()=>{
-      let data=  await privateQuery.get()
+  React.useEffect(()=>{
+    privateQuery.onSnapshot((data=>{
       let x= []
       data.forEach(doc=>x.push(doc.data()))
-    setloading(false)
-      setchatData(x)
+  setloading(false)
+    setchatData(x)
+    if(scrolllDown.current){
       scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
-      setlatest(data.docs[0])
-    },[])
-  React.useEffect(()=>{
-    x();
-  },[x])
-  const scrolllDown = React.useRef();
+    }
+    setlatest(data.docs[0])
+  }))
+  },[])
+ 
   const history = useHistory();
   const [text, settext] = React.useState("");
   const [open, setopen] = React.useState(false);
@@ -58,7 +59,6 @@ function Privatechat(props) {
       to: props.location.state.uid,
       chatparticipants : user.uid + props.location.state.uid
     });
-    x();
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
     await chatsRef.doc(props.location.state.uid).set({
       name: props.location.state.name,
@@ -117,8 +117,9 @@ function Privatechat(props) {
       <main className="chat-body">
         <section onScroll={onScroll} ref={element} className="message-box">
           <div className="chats">
+          {/* <button onClick={()=>scrolllDown.current.scrollIntoView({ behaviour: "smooth" })}>show</button> */}
             {/* {error && <strong>Error: {JSON.stringify(error)}</strong>} */}
-            {/* <button onClick={()=>console.log(error)}>show</button> */}
+           
             {/* {loading && <span>Loading...</span>} */}
             {user &&
               chatData.length!==0 &&

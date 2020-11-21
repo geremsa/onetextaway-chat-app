@@ -19,18 +19,18 @@ function Groupchat(props) {
   const privateQuery = groupsRef
     .where("groupUid", "==", `${props.location.state.uid}`)
     .orderBy("createdAt").limitToLast(18);
-    const x =React.useCallback(async()=>{
-      let data=  await privateQuery.get()
-      let x= []
-      data.forEach(doc=>x.push(doc.data()))
-      setloading(false)
+    React.useEffect(()=>{
+      privateQuery.onSnapshot((data=>{
+        let x= []
+        data.forEach(doc=>x.push(doc.data()))
+    setloading(false)
       setchatData(x)
-      scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
+      if(scrolllDown.current){
+        scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
+      }
       setlatest(data.docs[0])
+    }))
     },[])
-  React.useEffect(()=>{
-    x();
-  },[x])
   const scrolllDown = React.useRef();
   const history = useHistory();
   const [text, settext] = React.useState("");
@@ -56,7 +56,6 @@ function Groupchat(props) {
       uid,
       groupUid: props.location.state.uid
     });
-    x();
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
     await chatsRef.doc(props.location.state.uid).set({
       name: props.location.state.name,
