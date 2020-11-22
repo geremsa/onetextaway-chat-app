@@ -4,34 +4,35 @@ import { useHistory, withRouter } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "emoji-mart/css/emoji-mart.css";
 import moment from "moment";
-// import "./private.css";
+import "./p.css";
 import Chatcreator from "../elements/chatcreator";
 const firestore = firebase.firestore();
 const auth = firebase.auth();
-const groupsRef = firestore.collection("groupchats");
+const messagesRef = firestore.collection("messages");
 const chatsRef = firestore.collection("chats");
-function Groupchat(props) {
+function Privatechat(props) {
   const element = React.useRef()
-  const [user] = useAuthState(auth);
-  const [loading, setloading] = React.useState(false)
-  const [chatData, setchatData] = React.useState([]);
-  const [latest, setlatest] = React.useState(null);
-  const privateQuery = groupsRef
-    .where("groupUid", "==", `${props.location.state.uid}`)
-    .orderBy("createdAt").limitToLast(18);
-    React.useEffect(()=>{
-      privateQuery.onSnapshot((data=>{
-        let x= []
-        data.forEach(doc=>x.push(doc.data()))
-    setloading(false)
-      setchatData(x)
-      if(scrolllDown.current){
-        scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
-      }
-      setlatest(data.docs[0])
-    }))
-    },[])
   const scrolllDown = React.useRef();
+  const [user] = useAuthState(auth);
+  const [chatData, setchatData] = React.useState([]);
+  const [loading, setloading] = React.useState(false)
+  const [latest, setlatest] = React.useState(null);
+  const privateQuery = messagesRef
+   .where("chatparticipants", "in", [user.uid + props.location.state.uid, props.location.state.uid + user.uid ])
+    .orderBy("createdAt").limitToLast(25);
+  React.useEffect(()=>{
+    privateQuery.onSnapshot((data=>{
+      setloading(false)
+      let x= []
+      data.forEach(doc=>x.push(doc.data()))
+    setchatData(x)
+    if(scrolllDown.current){
+      scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
+    }
+    setlatest(data.docs[0])
+  }))
+  },[])
+ 
   const history = useHistory();
   const [text, settext] = React.useState("");
   const [open, setopen] = React.useState(false);
@@ -47,33 +48,43 @@ function Groupchat(props) {
     setloading(true)
     e.preventDefault();
     setopen(false)
-    const { uid, displayName } = auth.currentUser;
+    const { uid } = auth.currentUser;
     let value = text;
     settext("");
-    await groupsRef.add({
+    await messagesRef.add({
       text: value,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
-      name: displayName,
-      groupUid: props.location.state.uid
+      to: props.location.state.uid,
+      chatparticipants : user.uid + props.location.state.uid
     });
+   
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
     await chatsRef.doc(props.location.state.uid).set({
       name: props.location.state.name,
-      imageUrl : "/group.svg",
+      imageUrl : props.location.state.imageUrl,
       uid,
-      chatparticipants: props.location.state.participants.map(v=>v.uid),
+      chatparticipants:[props.location.state.uid, uid],
       createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
-      text:value,
-      groupUid: props.location.state.uid,
-      participants: props.location.state.participants
+      text:value
     },{merge: true})
+    try{
+      await chatsRef.doc(user.uid).update({
+        createdAt: new Date(),
+        text : value
+      })
+    }
+    catch{
+      return;
+    }
+    
   };
   const onScroll =async(e)=>{
     const {scrollTop}= e.currentTarget
     if(latest){
-      let Query = groupsRef
-      .where("groupUid", "==", `${props.location.state.uid}`)
+      let Query = messagesRef
+      .where("uid", "==", `${user.uid}`)
+      .where("to", "==", `${props.location.state.uid}`)
       .orderBy("createdAt").endBefore(latest).limitToLast(10);
       if(scrollTop===0){
         let data=  await Query.get()
@@ -90,16 +101,11 @@ function Groupchat(props) {
       <nav className="private-navigation">
         <section>
           <img
-            src="/group.svg"
+            src={props.location.state.imageUrl}
             alt=""
             className="private-img"
           />
-          <div>
-          <span className="private-name">{ props.location.state.name}</span>
-          <div className="group-chat-names">
-            {props.location.state.participants.map((p,i)=><span key={i}>{p.name.split(' ')[0]}</span>)}
-          </div>
-          </div>
+          <span className="private-name">{props.location.state.name}</span>
         </section>
         <img
           src="/arrow.png"
@@ -111,26 +117,24 @@ function Groupchat(props) {
       <main className="chat-body">
         <section onScroll={onScroll} ref={element} className="message-box">
           <div className="chats">
+          {/* <button onClick={()=>scrolllDown.current.scrollIntoView({ behaviour: "smooth" })}>show</button> */}
             {/* {error && <strong>Error: {JSON.stringify(error)}</strong>} */}
-            {/* <button onClick={()=>console.log(error)}>show</button> */}
+           
             {/* {loading && <span>Loading...</span>} */}
             {user &&
               chatData.length!==0 &&
               chatData.map((p,i) => (
-                <div
+                <p
                   key={p.text + i}
-                  className={p.uid === user.uid ? "mychat mine" : "yourchat yours"}
-                > 
-                {p.uid === user.uid ? "" : <h5>{p.name.split(' ')[0]}</h5>}
-                <span>
+                  className={p.uid === user.uid ? "mychat" : "yourchat"}
+                >
                   {p.text}
                   {p.createdAt && (
                     <span id="clock-chat">
                       {moment(p.createdAt.toDate()).format("LT")}
                     </span>
                   )}{" "}
-                </span>
-                </div>
+                </p>
               ))}
               { loading && <p key="loading" className="mychat" style={{fontStyle:"italic"}}>sending...</p>}
             <div ref={scrolllDown}></div>
@@ -142,5 +146,4 @@ function Groupchat(props) {
   );
 }
 
-export default withRouter(Groupchat);
-
+export default withRouter(Privatechat);

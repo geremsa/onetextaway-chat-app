@@ -21,9 +21,9 @@ function Chatcreator({Crray}) {
               value={Crray.text}
             />
           </div>
-          <button type="submit" disabled={Crray.text.length <= 1 ? true : false}>
-            <img src="/send.svg" id="chat-send" alt="send" />
-          </button>
+          <div onClick={Crray.submitHandler} type="submit" id="send-chat" disabled={Crray.text.length <= 1 ? true : false}>
+            <img src="/send.png" id="chat-send" alt="send" />
+          </div>
         </form>
         {Crray.open && <Picker onSelect={Crray.putEmoji} style={{width:"100vw"}}/>}
       </section>

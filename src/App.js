@@ -5,7 +5,7 @@ import Authtext from "./users/authtext";
 import Userslist from "./users/userslist";
 import firebase from "./config/base";
 import { useAuthState } from "react-firebase-hooks/auth";
-import Privatechat from "./interface/privatechat";
+import Privatechat from "./interface/private";
 import Chatslist from "./users/chatlist";
 import Newgroup from "./groups/newgroup";
 import Groups from "./groups/groups";

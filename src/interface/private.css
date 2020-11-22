@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  background-color: rgb(245, 243, 243);
+  background-color: rgb(202, 202, 202);
   overflow: hidden;
 }
 .private-navigation {
@@ -106,7 +106,7 @@
   overflow-x: hidden;
   overflow-y: scroll;
 }
-.messages::-webkit-scrollbar {
+.message-box::-webkit-scrollbar {
   opacity: 0;
 }
 .chats {
