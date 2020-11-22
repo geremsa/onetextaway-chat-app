@@ -22,6 +22,7 @@ function Privatechat(props) {
     .orderBy("createdAt").limitToLast(18);
   React.useEffect(()=>{
     privateQuery.onSnapshot((data=>{
+      setloading(false)
       let x= []
       data.forEach(doc=>x.push(doc.data()))
     setchatData(x)
@@ -57,7 +58,7 @@ function Privatechat(props) {
       to: props.location.state.uid,
       chatparticipants : user.uid + props.location.state.uid
     });
-    setloading(false)
+   
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
     await chatsRef.doc(props.location.state.uid).set({
       name: props.location.state.name,
