@@ -21,10 +21,11 @@ function Privatechat(props) {
    .where("chatparticipants", "in", [user.uid + props.location.state.uid, props.location.state.uid + user.uid ])
     .orderBy("createdAt").limitToLast(25);
   React.useEffect(()=>{
+    
     privateQuery.onSnapshot((data=>{
-      setloading(false)
       let x= []
       data.forEach(doc=>x.push(doc.data()))
+      setloading(false)
     setchatData(x)
     if(scrolllDown.current){
       scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
@@ -58,7 +59,6 @@ function Privatechat(props) {
       to: props.location.state.uid,
       chatparticipants : user.uid + props.location.state.uid
     });
-   
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
     await chatsRef.doc(props.location.state.uid).set({
       name: props.location.state.name,
@@ -69,10 +69,14 @@ function Privatechat(props) {
       text:value
     },{merge: true})
     try{
-      await chatsRef.doc(user.uid).update({
-        createdAt: new Date(),
-        text : value
-      })
+        await chatsRef.doc(uid).set({
+            name: user.displayName,
+            imageUrl : user.photoURL,
+            uid : props.location.state.uid,
+            chatparticipants:[uid,props.location.state.uid],
+            createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
+            text:value
+          },{merge: true})
     }
     catch{
       return;

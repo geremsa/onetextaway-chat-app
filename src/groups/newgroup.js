@@ -105,7 +105,6 @@ function Newgroup() {
                   }}
                   className="group-add"
                 />
-                <button onClick={() => console.log(Grray)}>show</button>
               </div>
             ))}
         </section>

@@ -18,7 +18,7 @@ function Groupchat(props) {
   const [latest, setlatest] = React.useState(null);
   const privateQuery = groupsRef
     .where("groupUid", "==", `${props.location.state.uid}`)
-    .orderBy("createdAt").limitToLast(18);
+    .orderBy("createdAt").limitToLast(25);
     React.useEffect(()=>{
       privateQuery.onSnapshot((data=>{
         let x= []
