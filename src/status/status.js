@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useContext} from "react";
 import Header from "../elements/header";
 import {Link} from "react-router-dom";
 import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { BulletList } from 'react-content-loader'
 import './status.css'
+import { Chatcontext } from "../elements/context";
 const firestore = firebase.firestore();
 const statusRef = firestore.collection("status");
 function Status() {
+  const user = useContext(Chatcontext)
   const query = statusRef.orderBy('createdAt','desc')
   const [value, loading] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
@@ -31,8 +33,22 @@ function Status() {
             </div>
           </section>
         )}
+        {value && value.filter(v=>v.uid===user.currentUser.uid).map((p,i) => (
+            <Link
+              to={{
+                pathname: `/viewstatus/${p.uid}`,
+                state: {name: p.name, statusUrls : p.statusUrls},
+              }}
+              key={i}
+              style={{display: p.statusUrls.length>0? "flex" : "none"}}
+              className="media-list"
+            >
+              <img src={p.imageUrl}  alt="img" className="media-list-img status-ring" />
+              <span>My Status</span>
+            </Link>
+          ))}
         {value &&
-          value.map((p,i) => (
+          value.filter(v=>v.uid!==user.currentUser.uid).map((p,i) => (
             <Link
               to={{
                 pathname: `/viewstatus/${p.uid}`,
