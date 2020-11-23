@@ -4,7 +4,7 @@ import { useHistory, withRouter } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import "emoji-mart/css/emoji-mart.css";
 import moment from "moment";
-// import "./private.css";
+import "./p.css";
 import Chatcreator from "../elements/chatcreator";
 const firestore = firebase.firestore();
 const auth = firebase.auth();

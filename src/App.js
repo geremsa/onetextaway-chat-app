@@ -12,6 +12,7 @@ import Groups from "./groups/groups";
 import Groupchat from "./interface/groupchat";
 import Status from "./status/status";
 import Newstatus from "./status/newstatus";
+import Profileupdate from "./users/profileupdate"
 import Statusview from "./status/statusview";
 import { Instagram } from 'react-content-loader'
 const auth = firebase.auth();
@@ -46,6 +47,9 @@ function App() {
         </Route>
         <Route path="/newstatus" exact>
           <Newstatus/>
+        </Route>
+        <Route path="/profileupdate" exact>
+          <Profileupdate/>
         </Route>
         <Route path="/users" exact>
           <Userslist />

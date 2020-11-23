@@ -32,6 +32,17 @@
     height: 100%;
     object-fit: cover;
 }
+.profile-update{
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+}
+.profile-update img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
 .submit-newstatus{
     display: flex;
     width: 80%;

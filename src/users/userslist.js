@@ -11,8 +11,8 @@ const usersRef = firestore.collection("users");
 
 function Userslist() {
   const user = useContext(Chatcontext);
-  const query = usersRef.where("uid", "!=", `${user.currentUser.uid}`);
-  const [value, loading] = useCollectionData(query, {
+  // const query = usersRef.where("uid", "!=", `${user.currentUser.uid}`);
+  const [value, loading] = useCollectionData(usersRef, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
   return (
@@ -23,8 +23,26 @@ function Userslist() {
         <BulletList />
         <BulletList />
         </section>}
+        {value && value.length === 0 && (
+          <section className="no-chat">
+            <div className="auth-text no-chat-link">
+              <h4>No users found</h4>
+            </div>
+          </section>
+        )}
+        {value && value.filter(v=>v.uid===user.currentUser.uid).map(p => (
+        <div
+              to="/users"
+              key={user.currentUser.uid}
+              className="media-list"
+            >
+              <img src={p.imageUrl} alt="img" className="media-list-img"/>
+              <span>You</span>
+              <Link to="/profileupdate" id="time-chat" className="create-group" style={{marginTop:0,transform: "none",fontSize:"15px"}}>Update</Link>
+            </div>))
+        }
         {value &&
-          value.map((p) => (
+          value.filter(v=>v.uid!==user.currentUser.uid).map((p,i) => (
             <Link
               to={{
                 pathname: `/chat/${p.uid}`,
