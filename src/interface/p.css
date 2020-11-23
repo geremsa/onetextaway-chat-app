@@ -60,6 +60,7 @@
   }
   .chat-emoji {
     width: 20px;
+    cursor: pointer;
   }
   .emoji-drawer {
     position: sticky;
@@ -86,7 +87,6 @@
     justify-content: center;
     border-radius: 10px;
     background-color: rgb(231, 231, 230);
-    padding: 20px;
   }
   .chat-form button:focus {
     outline: none;
@@ -171,4 +171,5 @@
      max-width: 100px;
     }
   }
+ 
   

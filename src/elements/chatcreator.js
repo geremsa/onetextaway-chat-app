@@ -25,7 +25,7 @@ function Chatcreator({Crray}) {
             <img src="/send.png" id="chat-send" alt="send" />
           </div>
         </form>
-        {Crray.open && <Picker onSelect={Crray.putEmoji} style={{width:"100vw"}}/>}
+        {Crray.open && <Picker onSelect={Crray.putEmoji} style={{width:"100vw", background:"rgb(231, 231, 230)"}}/>}
       </section>
     )
 }
