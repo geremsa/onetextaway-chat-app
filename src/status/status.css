@@ -153,3 +153,11 @@
        z-index: 10;
        background-color: var(--background);
    }
+   .propClass{
+       height: auto;
+       margin-bottom: 20px;
+   }
+   .propClass .profile-update{
+       margin-bottom: 20px;
+       border-color: rgb(162, 163, 163);
+   }

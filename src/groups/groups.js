@@ -49,14 +49,13 @@ function Groups() {
                   uid: p.groupUid,
                   participants: p.participants,
                   name: p.name,
+                  imageUrl: p.imageUrl
                 },
               }}
               key={p.groupUid}
               className="media-list"
             >
-              <div className="media-list-img group-img-list">
-                <img src="/group.svg" style={{ width: "80%" }} alt="img" />
-              </div>
+                <img src={p.imageUrl}  alt="img" style={{borderColor:"grey"}} className="media-list-img" />
               <span>{p.name}</span>
             </Link>
           ))}

@@ -60,7 +60,7 @@ function Privatechat(props) {
       chatparticipants : user.uid + props.location.state.uid
     });
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
-    await chatsRef.doc(props.location.state.uid).set({
+    await chatsRef.doc(props.location.state.uid + uid).set({
       name: props.location.state.name,
       imageUrl : props.location.state.imageUrl,
       uid,
@@ -69,7 +69,7 @@ function Privatechat(props) {
       text:value
     },{merge: true})
     try{
-        await chatsRef.doc(uid).set({
+        await chatsRef.doc(uid + props.location.state.uid).set({
             name: user.displayName,
             imageUrl : user.photoURL,
             uid : props.location.state.uid,
@@ -78,8 +78,8 @@ function Privatechat(props) {
             text:value
           },{merge: true})
     }
-    catch{
-      return;
+    catch(err){
+      return
     }
     
   };
@@ -125,7 +125,7 @@ function Privatechat(props) {
             {/* {error && <strong>Error: {JSON.stringify(error)}</strong>} */}
            
             {/* {loading && <span>Loading...</span>} */}
-            {user &&
+            {user && chatData &&
               chatData.length!==0 &&
               chatData.map((p,i) => (
                 <p

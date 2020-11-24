@@ -11,7 +11,7 @@ const usersRef = firestore.collection("users");
 
 function Userslist() {
   const user = useContext(Chatcontext);
-  // const query = usersRef.where("uid", "!=", `${user.currentUser.uid}`);
+ 
   const [value, loading] = useCollectionData(usersRef, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });

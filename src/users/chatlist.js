@@ -49,7 +49,7 @@ function Chatslist() {
                 },
               }}
               key={i}
-              style={{display: (p.chatparticipants.length===2 && p.uid !== user.currentUser.uid)? "none" : "flex" }}
+              style={{display: (p.chatparticipants.length===2 && p.chatparticipants[1] !== user.currentUser.uid)? "none" : "flex" }}
               className="media-list chat-media"
             >
               <img src={p.imageUrl} alt="img" className="media-list-img" />
@@ -57,7 +57,7 @@ function Chatslist() {
                 <div>
                   <span id="chat-name-person">{p.name}</span>
                   <span style={{ display: "inline-block" }} id="time-chat">
-                    {moment(p.createdAt.toDate()).format("LT")}
+                    { moment(p.createdAt.toDate()).format("LT")}
                   </span>
                 </div>
                 <span id="text-chat">{p.text}</span>

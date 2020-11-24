@@ -60,7 +60,7 @@ function Groupchat(props) {
     scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
     await chatsRef.doc(props.location.state.uid).set({
       name: props.location.state.name,
-      imageUrl : "/group.svg",
+      imageUrl : props.location.state.imageUrl,
       uid,
       chatparticipants: props.location.state.participants.map(v=>v.uid),
       createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
@@ -90,7 +90,7 @@ function Groupchat(props) {
       <nav className="private-navigation">
         <section>
           <img
-            src="/group.svg"
+            src={props.location.state.imageUrl}
             alt=""
             className="private-img"
           />

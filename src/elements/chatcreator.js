@@ -14,7 +14,7 @@ function Chatcreator({ Crray }) {
           />
           <input
             ref={Crray.inputElement}
-            onClick={Crray.emojiDrawer}
+            onClick={()=>{Crray.open && Crray.emojiDrawer()}}
             type="text"
             name="text"
             placeholder="Type a message"

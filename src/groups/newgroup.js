@@ -4,6 +4,7 @@ import { Link, useHistory } from "react-router-dom";
 import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Chatcontext } from "../elements/context";
+import Imageupload from "../elements/imageupload";
 const firestore = firebase.firestore();
 const usersRef = firestore.collection("users");
 const groupsRef = firestore.collection("groups");
@@ -11,6 +12,9 @@ const groupsRef = firestore.collection("groups");
 function Newgroup() {
   const user = useContext(Chatcontext);
   const history = useHistory();
+  const [file, setfile] = React.useState();
+  const [previewUrl, setpreviewUrl] = React.useState();
+  const [loading, setloading] = React.useState(false)
   const [Grray, setGrray] = React.useState([
     {
       name: user.currentUser.displayName,
@@ -21,7 +25,7 @@ function Newgroup() {
   const [done, setdone] = React.useState(false);
   const [name, setname] = React.useState("");
   const query = usersRef.where("uid", "!=", `${user.currentUser.uid}`);
-  const [value, loading] = useCollectionData(query, {
+  const [value, load] = useCollectionData(query, {
     snapshotListenOptions: { includeMetadataChanges: true },
   });
   const added = (e, uid) => {
@@ -33,12 +37,25 @@ function Newgroup() {
     }
   };
   const Creategroup = async () => {
+    setloading(true)
+    setpreviewUrl()
+    const storageRef = firebase.storage().ref();
+    const fileRef = storageRef.child(file.name)
+    try {
+        await fileRef
+          .put(file)
+          .then(() => console.log("Upload successful"))
+          .catch((err) => console.log(err));
+      } catch (err) {
+        throw new Error(err);
+      }
     await groupsRef.add({
       name,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       participants: Grray,
       uid: user.currentUser.uid,
       groupUid: uuid(),
+      imageUrl: await fileRef.getDownloadURL()
     });
     history.push("/groups");
   };
@@ -90,7 +107,7 @@ function Newgroup() {
       </nav>
       {!done && (
         <section className="users-body">
-          {loading && <span>Loading...</span>}
+          {load && <span>Loading...</span>}
           {value &&
             value.map((p, i) => (
               <div key={p.uid} className="media-list">
@@ -122,6 +139,7 @@ function Newgroup() {
               placeholder="Enter a group name"
             />
           </div>
+          <Imageupload Upload={{file,setfile,setpreviewUrl,previewUrl,loading,propClass: "propClass", btn: false}}/>
           <div className="participants">
             <h5>Participants</h5>
             <section>
