@@ -144,7 +144,7 @@ function Privatechat(props) {
             <div ref={scrolllDown}></div>
           </div>
         </section>
-        <Chatcreator  Crray={{open,submitHandler,emojiDrawer,text,settext,putEmoji}}/>
+        <Chatcreator  Crray={{open,submitHandler,emojiDrawer,text,settext,setopen,putEmoji}}/>
       </main>
     </div>
   );

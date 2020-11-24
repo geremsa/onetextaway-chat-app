@@ -51,6 +51,7 @@
 .pick-btn{
     margin-left: 5px;
     cursor: pointer;
+    z-index: 100;
 }
 .status-ring{
     border: 3px solid var(--pink);

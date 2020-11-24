@@ -98,7 +98,7 @@ function Newstatus() {
             onChange={picked}
             style={{ display: "none" }}
           />
-          <div className="preview">
+          <div className="preview" style={{height:"70vh"}}>
             <div className="image-upload__preview">
               {previewUrl && <img src={previewUrl} alt="preview" />}
               {!previewUrl && (

@@ -5,6 +5,7 @@ import firebase from "../config/base";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 import { Chatcontext } from "../elements/context";
 import Imageupload from "../elements/imageupload";
+import { Instagram } from 'react-content-loader'
 const firestore = firebase.firestore();
 const usersRef = firestore.collection("users");
 const groupsRef = firestore.collection("groups");
@@ -96,9 +97,9 @@ function Newgroup() {
           <span
             style={{
               display: Grray.length > 2 ? "inline-block" : "none",
-              background: name.length > 0 ? "#f05454" : "grey",
+              background: name.length > 0 && file ? "#f05454" : "grey",
             }}
-            onClick={name.length > 0 ? Creategroup : () => {}}
+            onClick={name.length > 0 && file ? Creategroup : () => {}}
             className="add-btn"
           >
             Create
@@ -139,6 +140,10 @@ function Newgroup() {
               placeholder="Enter a group name"
             />
           </div>
+          {loading && <section className="loading">
+        <Instagram/>
+      </section>}
+      <div className="new-group-bottom">
           <Imageupload Upload={{file,setfile,setpreviewUrl,previewUrl,loading,propClass: "propClass", btn: false}}/>
           <div className="participants">
             <h5>Participants</h5>
@@ -153,6 +158,7 @@ function Newgroup() {
               ))}
             </section>
           </div>
+      </div>
         </section>
       )}
     </main>

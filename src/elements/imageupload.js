@@ -37,7 +37,7 @@ function Imageupload({Upload}) {
           onChange={picked}
           style={{ display: "none" }}
         />
-        <div className={`preview ${Upload.propClass}`}>
+        <div className={`preview ${Upload.btn ? Upload.propClass: ""}`}>
           <div className="image-upload__preview profile-update">
             {Upload.previewUrl && <img src={Upload.previewUrl} alt="preview" />}
             {!Upload.previewUrl && (

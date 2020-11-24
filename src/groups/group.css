@@ -51,6 +51,7 @@
     background-color: var(--pink);
     color:  #eee1e1;
     position: absolute;
+    cursor: pointer;
     right: 5vw;
 }
 
@@ -68,7 +69,7 @@
     font-weight: bold;
 }
 .participants{
-   transform: translateX(6px);
+   transform: translateX(6px,80px);
 }
 .participants h5{
    margin-bottom: 10px;
@@ -129,4 +130,8 @@
     padding-left: 5px;
     font-size: large;
     width: 62vw;
+}
+.new-group-bottom{
+    display: flex;
+    flex-direction: column;
 }
