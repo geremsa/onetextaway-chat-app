@@ -3,6 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import firebase from "../config/base";
 import { Instagram } from 'react-content-loader'
 import { Chatcontext } from "../elements/context";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 const firestore = firebase.firestore();
 const statusRef = firestore.collection("status");
 
@@ -10,12 +11,15 @@ function Newstatus() {
   const fileRef = useRef();
   const history = useHistory()
   const user = useContext(Chatcontext)
+  const usersRef = firestore.collection("users").where('uid','==',user.currentUser.uid);
   const [file, setfile] = useState();
   const [previewUrl, setpreviewUrl] = useState();
   const [isValid, setisValid] = useState(true);
   const [loading, setloading] = useState(false)
   const query = statusRef.where('uid','==', user.currentUser.uid)
-
+  const [value] = useCollectionData(usersRef, {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
   useEffect(() => {
     if (!file) {
       return;
@@ -54,7 +58,7 @@ function Newstatus() {
       if(data.empty){
         await statusRef.doc(user.currentUser.uid).set({
           name: user.currentUser.displayName,
-          imageUrl : user.currentUser.photoURL,
+          imageUrl : value[0].imageUrl,
           uid: user.currentUser.uid,
           statusUrls:[{ url: await fileRef.getDownloadURL(), createdAt: new Date()}],
           createdAt: new Date()

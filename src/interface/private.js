@@ -6,6 +6,7 @@ import "emoji-mart/css/emoji-mart.css";
 import moment from "moment";
 import "./p.css";
 import Chatcreator from "../elements/chatcreator";
+import { useCollectionData } from "react-firebase-hooks/firestore";
 const firestore = firebase.firestore();
 const auth = firebase.auth();
 const messagesRef = firestore.collection("messages");
@@ -14,6 +15,10 @@ function Privatechat(props) {
   const element = React.useRef()
   const scrolllDown = React.useRef();
   const [user] = useAuthState(auth);
+  const usersRef = firestore.collection("users").where('uid','==',user.uid);
+  const [valuee] = useCollectionData(usersRef, {
+    snapshotListenOptions: { includeMetadataChanges: true },
+  });
   const [chatData, setchatData] = React.useState([]);
   const [loading, setloading] = React.useState(false)
   const [latest, setlatest] = React.useState(null);
@@ -25,7 +30,6 @@ function Privatechat(props) {
     privateQuery.onSnapshot((data=>{
       let x= []
       data.forEach(doc=>x.push(doc.data()))
-      setloading(false)
     setchatData(x)
     if(scrolllDown.current){
       scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
@@ -52,6 +56,7 @@ function Privatechat(props) {
     const { uid } = auth.currentUser;
     let value = text;
     settext("");
+    setloading(false)
     await messagesRef.add({
       text: value,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -71,7 +76,7 @@ function Privatechat(props) {
     try{
         await chatsRef.doc(uid + props.location.state.uid).set({
             name: user.displayName,
-            imageUrl : user.photoURL,
+            imageUrl : valuee[0].imageUrl,
             uid : props.location.state.uid,
             chatparticipants:[uid,props.location.state.uid],
             createdAt:  firebase.firestore.FieldValue.serverTimestamp(),
