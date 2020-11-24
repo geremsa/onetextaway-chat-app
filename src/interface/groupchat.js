@@ -23,7 +23,6 @@ function Groupchat(props) {
       privateQuery.onSnapshot((data=>{
         let x= []
         data.forEach(doc=>x.push(doc.data()))
-    setloading(false)
       setchatData(x)
       if(scrolllDown.current){
         scrolllDown.current.scrollIntoView({ behaviour: "smooth" });
@@ -50,6 +49,7 @@ function Groupchat(props) {
     const { uid, displayName } = auth.currentUser;
     let value = text;
     settext("");
+    setloading(false)
     await groupsRef.add({
       text: value,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
